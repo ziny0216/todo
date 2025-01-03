@@ -6,10 +6,14 @@ import Button from '../Button/Button.tsx';
 export default function Modal({
   isOpen,
   children,
+  className,
+  disabledBackDrop,
   onClose,
 }: {
   isOpen: boolean;
   children: ReactNode;
+  className?: string;
+  disabledBackDrop?: boolean;
   onClose: () => void;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -23,7 +27,10 @@ export default function Modal({
   }, [isOpen]);
 
   return createPortal(
-    <dialog ref={dialogRef} className={styles.modal_wrap}>
+    <dialog
+      ref={dialogRef}
+      className={`${styles.modal_wrap} ${className && styles[className]} ${disabledBackDrop ? styles.no_backdrop : ''}`}
+    >
       <div className={styles.modal_header}>
         <Button className={['close_btn']} handleButton={onClose} />
       </div>

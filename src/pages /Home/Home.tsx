@@ -6,16 +6,15 @@ import TodoItem from '../../components/Todo/TodoItem.tsx';
 import { useState } from 'react';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
 import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
+import Header from '../../components/Header/Header.tsx';
+import useHeaderDate from '../../hooks/useHeaderDate.tsx';
 
 export default function Home() {
   const [todos, setTodos] = useState<TodoItemType[]>(todoData);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const handleFloatingBar = () => {
-    setIsShowToolbar(!isShowToolbar);
-  };
-
+  const { dateTitle, handlePrev, handleNext } = useHeaderDate();
   const handleCheckBox = (id: number) => {
     const newTodos: TodoItemType[] = todos.map(todo => {
       if (todo.id === id) {
@@ -27,7 +26,6 @@ export default function Home() {
   };
 
   const handleTodoDelete = (id: number) => {
-    console.log(id);
     const newTodos: TodoItemType[] = todos.filter(todo => todo.id !== id);
     setTodos(newTodos);
   };
@@ -39,38 +37,45 @@ export default function Home() {
     }
   };
   return (
-    <section className={styles.main_section}>
-      <div className="inner">
-        <div className={styles.todo_list}>
-          {todos
-            .sort((a, b) => {
-              if (a.isDone === b.isDone) return 0;
-              return a.isDone === 'Y' ? 1 : -1;
-            })
-            .map((todo: TodoItemType) => (
-              <TodoItem
-                key={todo.id}
-                {...todo}
-                handleTodoDelete={() => handleTodoDelete(todo.id)}
-                handleCheckBox={() => handleCheckBox(todo.id)}
-              />
-            ))}
+    <>
+      <Header
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        title={dateTitle}
+      />
+      <section className={styles.main_section}>
+        <div className="inner">
+          <div className={styles.todo_list}>
+            {todos
+              .sort((a, b) => {
+                if (a.isDone === b.isDone) return 0;
+                return a.isDone === 'Y' ? 1 : -1;
+              })
+              .map((todo: TodoItemType) => (
+                <TodoItem
+                  key={todo.id}
+                  {...todo}
+                  handleTodoDelete={() => handleTodoDelete(todo.id)}
+                  handleCheckBox={() => handleCheckBox(todo.id)}
+                />
+              ))}
+          </div>
         </div>
-      </div>
 
-      <Button
-        className={['btn_gray', 'floating_btn']}
-        handleButton={handleFloatingBar}
-      />
-      <Toolbar
-        handleButtonClick={handleToolbarAction}
-        isShowToolbar={isShowToolbar}
-        closeToolbar={() => setIsShowToolbar(false)}
-      />
-      <TodoFormModal
-        onClose={() => setIsOpenModal(false)}
-        isOpen={isOpenModal}
-      />
-    </section>
+        <Button
+          className={['btn_gray', 'floating_btn']}
+          handleButton={() => setIsShowToolbar(!isShowToolbar)}
+        />
+        <Toolbar
+          handleButtonClick={handleToolbarAction}
+          isShowToolbar={isShowToolbar}
+          closeToolbar={() => setIsShowToolbar(false)}
+        />
+        <TodoFormModal
+          onClose={() => setIsOpenModal(false)}
+          isOpen={isOpenModal}
+        />
+      </section>
+    </>
   );
 }

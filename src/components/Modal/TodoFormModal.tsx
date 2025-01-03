@@ -29,9 +29,14 @@ export default function TodoFormModal({
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <div className={styles.todo_form}>
-        <div>
-          <span onClick={() => setIsCalendarOpen(true)}>날짜</span>
-        </div>
+        <Input
+          readonly={true}
+          label={'DATE'}
+          id={'date'}
+          name={'regDate'}
+          placeholder={'날짜를 선택해주세요.'}
+          onClick={() => setIsCalendarOpen(true)}
+        />
         <Input
           label={'TODO'}
           id={'content'}
@@ -39,6 +44,7 @@ export default function TodoFormModal({
           placeholder={'할 일을 작성해주세요.'}
           onChange={handleTodoInput}
         />
+        <p>{isCalendarOpen}</p>
         <Input
           label={'MEMO'}
           id={'memo'}

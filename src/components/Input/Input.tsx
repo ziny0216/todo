@@ -12,6 +12,7 @@ export default function Input({
   disabled,
   readonly,
   onChange,
+  onClick,
 }: InputProps) {
   return (
     <div className={styles.default_input}>
@@ -26,6 +27,7 @@ export default function Input({
         disabled={disabled}
         readOnly={readonly}
         onChange={onChange}
+        onClick={onClick}
       ></input>
     </div>
   );

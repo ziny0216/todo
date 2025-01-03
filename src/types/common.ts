@@ -29,4 +29,12 @@ export interface InputProps {
   disabled?: boolean;
   readonly?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClick?: () => void;
+}
+
+export interface useDateHookType {
+  currentDate: Date;
+  handlePrev: () => void;
+  handleNext: () => void;
+  dateTitle: string;
 }

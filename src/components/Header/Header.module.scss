@@ -6,6 +6,8 @@
   max-width: 550px;
   width: 100%;
   z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
 
   .header_inner {
     display: flex;
@@ -14,13 +16,13 @@
     height: 100%;
 
     .header_title {
-      color:$gray-900;
+      color: $gray-900;
       font-weight: $font-weight-semi;
       font-size: $font-size-lg;
       line-height: $line-height-lg;
       position: absolute;
-      top:50%;
-      left:50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       width: calc(100% - 128px);
       text-align: center;

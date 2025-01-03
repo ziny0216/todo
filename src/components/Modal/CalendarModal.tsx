@@ -1,5 +1,7 @@
-import Modal from './Modal';
 import Calendar from '../Calendar/Calendar.tsx';
+import Header from '../Header/Header.tsx';
+import useHeaderDate from '../../hooks/useHeaderDate.tsx';
+import BottomModal from './BottomModal.tsx';
 
 export default function CalendarModal({
   isOpen,
@@ -8,9 +10,15 @@ export default function CalendarModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const { dateTitle, handlePrev, handleNext } = useHeaderDate();
   return (
-    <Modal onClose={onClose} isOpen={isOpen}>
+    <BottomModal isOpen={isOpen} onClose={onClose}>
+      <Header
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        title={dateTitle}
+      />
       <Calendar />
-    </Modal>
+    </BottomModal>
   );
 }
