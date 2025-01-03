@@ -1,0 +1,130 @@
+$breakpoint-pc: "screen and (min-width : 1280px)";
+$breakpoint-tablet: "screen and (max-width : 1280px)";
+$breakpoint-sm-tablet: "screen and (max-width : 1024px)";
+$breakpoint-xs-tablet: "screen and (max-width : 768px)";
+$breakpoint-mobile: "screen and (max-width : 550px)";
+
+@mixin combIcon($size, $url) {
+  content: '';
+  display: block;
+  width: $size;
+  height: $size;
+  background-image: url($url);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+}
+
+@mixin imgIcon($size, $url) {
+  display: block;
+  width: $size;
+  height: $size;
+  background-image: url($url);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@mixin groupLine($width,$height, $color , $gap) {
+  display: flex;
+  align-items: center;
+  span, a, .group_item {
+    display: flex;
+    align-items: center;
+
+
+    &:after {
+      margin: 0 $gap;
+      content: '';
+      width: $width;
+      height: $height;
+      background-color: $color;
+      display: block;
+    }
+
+    &:last-child {
+      &:after {
+        display: none
+      }
+
+      &:first-child {
+        &:after {
+          display: none
+        }
+      }
+    }
+  }
+}
+
+@mixin combInput($left: null, $right: null, $padding) {
+  input, .form_input {
+    @if $left != null {
+      padding-left: $padding !important;
+    }
+    @if $right != null {
+      padding-right: $padding !important;
+    }
+  }
+  @if $left != null {
+    .comb_btn-left {
+      position: absolute;
+      top: 50%;
+      left: $left;
+      transform: translateY(-50%);
+    }
+  }
+
+  @if $right != null {
+    .comb_btn-right {
+      position: absolute;
+      top: 50%;
+      right: $right;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+
+// min 1280px;
+@mixin pc {
+  @media #{$breakpoint-pc}{
+    @content;
+
+  }
+}
+
+// 1280px;
+@mixin tablet {
+  @media #{$breakpoint-tablet}{
+    @content;
+
+  }
+}
+
+// 1024px;
+@mixin sm-tablet {
+  @media #{$breakpoint-sm-tablet}{
+    @content;
+
+  }
+}
+
+
+// 768px;
+@mixin xs-tablet {
+  @media #{$breakpoint-xs-tablet}{
+    @content;
+
+  }
+}
+
+
+// 550px;
+@mixin mobile {
+  @media #{$breakpoint-mobile}{
+    @content;
+
+  }
+}
+

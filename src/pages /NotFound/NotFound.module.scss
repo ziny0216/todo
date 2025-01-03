@@ -1,0 +1,25 @@
+.not_found_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 32px;
+
+  .desc {
+    font-size: 48px;
+    font-weight: bold;
+  }
+
+  .not_found_btn {
+    border: 1px solid;
+    line-height: 56px;
+    min-width: 180px;
+    border-radius: 8px;
+    transition: all 0.5s ease;
+
+    &:hover {
+      background-color: #efefef;
+    }
+  }
+}

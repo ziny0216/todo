@@ -1,0 +1,108 @@
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  line-height: $line-height-sm;
+
+  &_sm {
+    padding: 8px 14px;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    line-height: $line-height-sm;
+  }
+
+  &_lg {
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semi;
+    line-height: $line-height-md;
+  }
+
+  &_xl {
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semi;
+    line-height: $line-height-md;
+  }
+
+  &_xxl {
+    border-radius: 16px;
+    padding: 16px 28px;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semi;
+    line-height: $line-height-xl;
+  }
+
+  &_gray {
+    background-color: #fff;
+    border: 1px solid $gray-300;
+    color: $gray-700;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $gray-800;
+      background-color: $gray-50;
+    }
+
+    &:disabled, .disabled {
+      background-color: $gray-200;
+      color: $gray-300;
+    }
+  }
+
+  &_red {
+    background-color: $red-50;
+    color: $red-700;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $red-100;
+    }
+
+    &:disabled, .disabled {
+      background-color: $red-25;
+      color: $red-300;
+    }
+  }
+
+  &_text{
+    color: $gray-600;
+    &:hover {
+      color: $gray-700;
+    }
+  }
+
+  &_radius0 {
+    border-radius: 0
+  }
+}
+
+
+.prev_btn {
+  @include imgIcon(32px, '@/assets/icon/icon-left-arrow.png')
+}
+
+
+.next_btn {
+  @include imgIcon(32px, '@/assets/icon/icon-right-arrow.png')
+}
+
+.floating_btn {
+  @include imgIcon(64px, '@/assets/icon/icon-black-plus.png');
+  background-size: 32px;
+  border-radius: 50em;
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+}
+
+.delete_btn {
+  @include imgIcon(32px, '@/assets/icon/icon-red-trash.png');
+  background-size: 16px;
+  border-radius: 50em;
+  background-color: $red-50;
+
+}

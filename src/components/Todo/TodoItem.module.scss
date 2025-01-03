@@ -1,0 +1,53 @@
+.todo_item {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+  gap: 8px;
+  border-bottom: 1px solid $gray-200;
+
+  &.is_done {
+    background-color: $gray-50;
+    color: $gray-300;
+
+    .todo_content {
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: $gray-300;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .todo_memo {
+      color: $gray-300;
+    }
+
+
+  }
+
+  .todo_info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .todo_content {
+      background-color:inherit;
+      flex: 1;
+      border: none;
+      font-size: $font-size-md;
+      line-height: $line-height-md;
+    }
+  }
+
+  .todo_memo {
+    font-size: $font-size-sm;
+    line-height: $line-height-sm;
+    color: $gray-600;
+  }
+}

@@ -1,0 +1,35 @@
+.default_chk_box {
+
+  input {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+    vertical-align: middle;
+    display: flex;
+
+    span {
+      padding-top: 3px;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      background: url('@/assets/icon/icon-check-off.png') no-repeat center center;
+      background-size: contain;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+  }
+
+
+  input[type="checkbox"]:checked + label:before {
+    content: "";
+    background: url('@/assets/icon/icon-check-on.png') no-repeat center center;
+    background-size: contain;
+  }
+}

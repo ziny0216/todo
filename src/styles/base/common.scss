@@ -1,0 +1,31 @@
+@use "@/styles/abstracts/variables" as *;
+
+body{
+  background: $gray-50;
+}
+
+#root{
+  max-width: 550px;
+  width: 100%;
+  margin: 0 auto;
+  background-color:#fff;
+}
+
+section{
+  position: relative;
+  min-height: 100vh;
+}
+
+.inner{
+  padding: 90px 16px 32px;
+}
+
+.btn_group{
+  display: flex;
+  align-items: center;
+  gap:4px;
+}
+
+.ml_auto{
+  margin-left: auto;
+}
