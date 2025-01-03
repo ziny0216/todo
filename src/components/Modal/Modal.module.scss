@@ -1,3 +1,58 @@
-.modal_content {
-  font-size: 10px;
+
+.modal_wrap {
+  width:100%;
+  max-width: 550px;
+  max-height: 100%;
+  border: none;
+  overflow: hidden;
+  height: auto;
+  padding: 0;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+
+  .modal_header {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 52px;
+    padding: 0 16px;
+  }
+
+  .modal_content {
+    overflow: auto;
+    padding: 16px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .modal_footer{
+    position: fixed;
+    width:100%;
+    max-width: 550px;
+    bottom:0;
+    padding: 16px;
+    left:50%;
+    transform: translateX(-50%);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); /* 상단 그림자 */
+
+  }
+
+}
+
+.bottom_popup{
+
+}
+
+/* todo 팝업 */
+
+
+.todo_form{
+  display: flex;flex-direction: column;
+  gap:24px;
 }

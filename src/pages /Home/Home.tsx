@@ -5,10 +5,13 @@ import { TodoItemType } from '../../types/common.ts';
 import TodoItem from '../../components/Todo/TodoItem.tsx';
 import { useState } from 'react';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
+import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 
 export default function Home() {
   const [todos, setTodos] = useState<TodoItemType[]>(todoData);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   const handleFloatingBar = () => {
     setIsShowToolbar(!isShowToolbar);
   };
@@ -27,6 +30,13 @@ export default function Home() {
     console.log(id);
     const newTodos: TodoItemType[] = todos.filter(todo => todo.id !== id);
     setTodos(newTodos);
+  };
+
+  const handleToolbarAction = (action: string) => {
+    if (action === 'Add') {
+      setIsOpenModal(true);
+      setIsShowToolbar(false);
+    }
   };
   return (
     <section className={styles.main_section}>
@@ -47,13 +57,19 @@ export default function Home() {
             ))}
         </div>
       </div>
+
       <Button
         className={['btn_gray', 'floating_btn']}
         handleButton={handleFloatingBar}
       />
       <Toolbar
+        handleButtonClick={handleToolbarAction}
         isShowToolbar={isShowToolbar}
         closeToolbar={() => setIsShowToolbar(false)}
+      />
+      <TodoFormModal
+        onClose={() => setIsOpenModal(false)}
+        isOpen={isOpenModal}
       />
     </section>
   );

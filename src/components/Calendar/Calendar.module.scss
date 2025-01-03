@@ -1,0 +1,72 @@
+.calendar_wrap {
+  .calendar_content {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: right;
+    font-size: $font-size-sm;
+    line-height: $line-height-sm;
+  }
+
+  .calendar_header {
+    font-weight: $font-weight-semi;
+  }
+
+  .calendar_body {
+  }
+
+  .days {
+    line-height: 36px;
+    padding: 8px;
+  }
+
+  .date {
+    padding: 8px;
+    min-height: 100px;
+
+    border-style: solid;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap:8px;
+  }
+
+  .today {
+
+    .date_num {
+      position: relative;
+      color: white;
+      z-index: 1;
+      &:after {
+        content: "";
+        border-radius: 50em;
+        z-index: -1;
+        position: absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 32px;
+        height: 32px;
+        background-color: $purple;
+
+      }
+    }
+  }
+
+  .holiday {
+    color: $red-500
+  }
+
+  .saturday {
+    color: $blue-700
+  }
+  .goal_figure{
+    color:$gray-900;
+    font-size: $font-size-xxs;
+    line-height: $line-height-xxs;
+    .percent{
+      font-weight: $font-weight-semi;
+
+    }
+  }
+
+}

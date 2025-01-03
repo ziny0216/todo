@@ -104,5 +104,8 @@
   background-size: 16px;
   border-radius: 50em;
   background-color: $red-50;
+}
 
+.close_btn{
+  @include imgIcon(32px, '@/assets/icon/icon-black-close.png');
 }

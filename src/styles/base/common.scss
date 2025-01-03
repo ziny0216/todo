@@ -24,8 +24,20 @@ section{
   display: flex;
   align-items: center;
   gap:4px;
+  &_full{
+    @extend .btn_group;
+    gap:8px;
+    button{
+      flex:1;
+
+    }
+  }
 }
 
 .ml_auto{
   margin-left: auto;
+}
+
+.flex-1{
+  flex:1;
 }
