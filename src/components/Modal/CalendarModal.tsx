@@ -6,11 +6,14 @@ import BottomModal from './BottomModal.tsx';
 export default function CalendarModal({
   isOpen,
   onClose,
+  handleDateSelection,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  handleDateSelection: (date: Date) => void;
 }) {
-  const { dateTitle, handlePrev, handleNext } = useHeaderDate();
+  const { currentDate, dateTitle, handlePrev, handleNext } =
+    useHeaderDate('month');
   return (
     <BottomModal isOpen={isOpen} onClose={onClose}>
       <Header
@@ -18,7 +21,14 @@ export default function CalendarModal({
         handleNext={handleNext}
         title={dateTitle}
       />
-      <Calendar />
+      <Calendar
+        isPercentage={false}
+        currentDate={currentDate}
+        handleDateSelection={date => {
+          handleDateSelection(date);
+          onClose();
+        }}
+      />
     </BottomModal>
   );
 }

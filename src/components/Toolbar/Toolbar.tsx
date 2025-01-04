@@ -30,12 +30,25 @@ export default function Toolbar({
       className={`${styles.tool_bar} ${isShowToolbar ? styles.show : ''}`}
     >
       <Button
-        handleButton={() => handleButtonClick('Add')}
+        handleButton={() => handleButtonClick('add')}
         className={['btn_sm', 'btn_text']}
         text={'Add'}
       />
-      <Button className={['btn_sm', 'btn_text']} text={'Weeks'} />
-      <Button className={['btn_sm', 'btn_text']} text={'Month'} />
+      <Button
+        className={['btn_sm', 'btn_text']}
+        text={'day'}
+        handleButton={() => handleButtonClick('day')}
+      />
+      <Button
+        className={['btn_sm', 'btn_text']}
+        text={'week'}
+        handleButton={() => handleButtonClick('week')}
+      />
+      <Button
+        className={['btn_sm', 'btn_text']}
+        text={'month'}
+        handleButton={() => handleButtonClick('month')}
+      />
     </div>
   );
 }

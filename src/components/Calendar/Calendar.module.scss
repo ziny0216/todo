@@ -1,4 +1,21 @@
 .calendar_wrap {
+  padding-top: 58px;
+  &.default_calendar{
+    .calendar_header {
+      text-align: center;
+    }
+    .date {
+      min-height: 50px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &.percent_calendar {
+    .date {
+      min-height: 100px;
+    }
+  }
+
   .calendar_content {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -9,6 +26,7 @@
 
   .calendar_header {
     font-weight: $font-weight-semi;
+
   }
 
   .calendar_body {
@@ -21,13 +39,11 @@
 
   .date {
     padding: 8px;
-    min-height: 100px;
-
     border-style: solid;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap:8px;
+    gap: 8px;
   }
 
   .today {
@@ -36,12 +52,13 @@
       position: relative;
       color: white;
       z-index: 1;
+
       &:after {
         content: "";
         border-radius: 50em;
         z-index: -1;
         position: absolute;
-        top:50%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 32px;
@@ -59,11 +76,13 @@
   .saturday {
     color: $blue-700
   }
-  .goal_figure{
-    color:$gray-900;
+
+  .goal_figure {
+    color: $gray-900;
     font-size: $font-size-xxs;
     line-height: $line-height-xxs;
-    .percent{
+
+    .percent {
       font-weight: $font-weight-semi;
 
     }

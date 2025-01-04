@@ -26,10 +26,18 @@ export default function TodoFormModal({
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleDateSelection = (date: Date) => {
+    setTodoForm({
+      ...todoForm,
+      regDate: date.toLocaleDateString(),
+    });
+  };
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <div className={styles.todo_form}>
         <Input
+          value={todoForm.regDate}
           readonly={true}
           label={'DATE'}
           id={'date'}
@@ -44,7 +52,6 @@ export default function TodoFormModal({
           placeholder={'할 일을 작성해주세요.'}
           onChange={handleTodoInput}
         />
-        <p>{isCalendarOpen}</p>
         <Input
           label={'MEMO'}
           id={'memo'}
@@ -55,7 +62,14 @@ export default function TodoFormModal({
       </div>
 
       <div className={`${styles.modal_footer} btn_group_full`}>
-        <Button className={['btn_xl', 'btn_gray']} text={'등록'}></Button>
+        <Button
+          className={['btn_xl', 'btn_gray']}
+          text={'등록'}
+          handleButton={() => {
+            onClose();
+          }}
+        ></Button>
+
         <Button
           className={['btn_xl', 'btn_red']}
           text={'취소'}
@@ -63,6 +77,7 @@ export default function TodoFormModal({
         ></Button>
       </div>
       <CalendarModal
+        handleDateSelection={handleDateSelection}
         onClose={() => setIsCalendarOpen(false)}
         isOpen={isCalendarOpen}
       />

@@ -11,11 +11,11 @@ export default function BottomModal({
   onClose: () => void;
 }) {
   return (
-    <div
-      onClick={onClose}
-      className={`${styles.bottom_modal} ${isOpen ? styles.open : ''}`}
-    >
-      <div className={styles.modal_content}>{children}</div>
-    </div>
+    <>
+      {isOpen && <div className={styles.dimmed} onClick={onClose} />}
+      <div className={`${styles.bottom_modal} ${isOpen ? styles.open : ''}`}>
+        <div className={styles.modal_content}>{children}</div>
+      </div>
+    </>
   );
 }

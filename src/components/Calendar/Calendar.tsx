@@ -1,15 +1,24 @@
 import styles from './Calendar.module.scss';
 
-export default function Calendar() {
-  // const [currentDate, setCurrentDate] = useState(new Date());
-
-  const currentDate = new Date();
+export default function Calendar({
+  handleDateSelection,
+  currentDate,
+  isPercentage,
+}: {
+  handleDateSelection: (date: Date) => void;
+  currentDate: Date;
+  isPercentage: boolean;
+}) {
   const days: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const firstDay = new Date(
+    new Date(currentDate).getFullYear(),
+    new Date(currentDate).getMonth(),
+    1,
+  );
   const lastDay = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth() + 1,
+    new Date(currentDate).getFullYear(),
+    new Date(currentDate).getMonth() + 1,
     0,
   );
 
@@ -20,8 +29,11 @@ export default function Calendar() {
     }
     return date;
   };
+
   return (
-    <div className={styles.calendar_wrap}>
+    <div
+      className={`${styles.calendar_wrap} ${isPercentage ? styles.percent_calendar : styles.default_calendar}`}
+    >
       <ul className={`${styles.calendar_header} ${styles.calendar_content}`}>
         {days.map((day, idx) => {
           const dateClass = `${styles.days} ${idx === 0 ? styles.holiday : ''} ${idx === 6 ? styles.saturday : ''} }`;
@@ -44,12 +56,18 @@ export default function Calendar() {
         {getCurrentData().map(date => {
           const dateClass = `${styles.date} ${date.getDay() === 0 ? styles.holiday : ''} ${date.getDay() === 6 ? styles.saturday : ''} ${date.getDate() === new Date().getDate() ? styles.today : ''}`;
           return (
-            <li key={date.toDateString()} className={dateClass}>
+            <li
+              key={date.toDateString()}
+              className={dateClass}
+              onClick={() => handleDateSelection(date)}
+            >
               <span className={styles.date_num}>{date.getDate()}</span>
-              <div className={styles.goal_figure}>
-                <span className={styles.percent}>50% 달성</span>
-                <span>1001개 /10110개</span>
-              </div>
+              {isPercentage && (
+                <div className={styles.goal_figure}>
+                  <span className={styles.percent}>50% 달성</span>
+                  <span>1001개 /10110개</span>
+                </div>
+              )}
             </li>
           );
         })}

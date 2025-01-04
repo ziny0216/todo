@@ -5,16 +5,19 @@ import { TodoItemType } from '../../types/common.ts';
 import TodoItem from '../../components/Todo/TodoItem.tsx';
 import { useState } from 'react';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
-import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
+import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 
 export default function Home() {
   const [todos, setTodos] = useState<TodoItemType[]>(todoData);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [todoListType, setTodoListType] = useState<'day' | 'month' | 'week'>(
+    'day',
+  );
 
-  const { dateTitle, handlePrev, handleNext } = useHeaderDate();
+  const { dateTitle, handlePrev, handleNext } = useHeaderDate(todoListType);
   const handleCheckBox = (id: number) => {
     const newTodos: TodoItemType[] = todos.map(todo => {
       if (todo.id === id) {
@@ -31,10 +34,13 @@ export default function Home() {
   };
 
   const handleToolbarAction = (action: string) => {
-    if (action === 'Add') {
+    if (action === 'add') {
       setIsOpenModal(true);
       setIsShowToolbar(false);
+      return;
     }
+    setTodoListType(action as 'day' | 'month' | 'week');
+    setIsShowToolbar(false);
   };
   return (
     <>
@@ -71,6 +77,7 @@ export default function Home() {
           isShowToolbar={isShowToolbar}
           closeToolbar={() => setIsShowToolbar(false)}
         />
+
         <TodoFormModal
           onClose={() => setIsOpenModal(false)}
           isOpen={isOpenModal}

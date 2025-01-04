@@ -24,7 +24,14 @@ $line-height-md: 24px;
 $line-height-lg: 28px;
 $line-height-xl: 30px;
 
-$font-weight-r:400;
-$font-weight-m:500;
-$font-weight-semi:600;
-$font-weight-bold:700;
+$font-weight-r: 400;
+$font-weight-m: 500;
+$font-weight-semi: 600;
+$font-weight-bold: 700;
+
+.ellipsis1 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
