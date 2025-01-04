@@ -1,8 +1,9 @@
 import styles from './TodoItem.module.scss';
 import Button from '../Button/Button.tsx';
 import { TodoItemProps } from '../../types/common.ts';
-import { useEffect, useRef, useState } from 'react';
 import CheckBox from '../Input/CheckBox.tsx';
+import useEditableInput from '../../hooks/useEditableInput.tsx';
+import useClickOutside from '../../hooks/useClickOutside.tsx';
 
 export default function TodoItem({
   id,
@@ -12,33 +13,12 @@ export default function TodoItem({
   handleCheckBox,
   handleTodoDelete,
 }: TodoItemProps) {
-  const contentRef = useRef<HTMLInputElement>(null);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleTodoEdit = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const handleClickOutside = (e: MouseEvent) => {
-    if (contentRef.current && contentRef.current.contains(e.target as Node)) {
-      return;
-    }
-    setIsEditing(false);
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isEditing) {
-      contentRef.current?.focus();
-    }
-  }, [isEditing]);
-
+  const todoContent = useEditableInput(content);
+  const todoMemo = useEditableInput(memo);
+  useClickOutside(todoContent.inputEditRef, () =>
+    todoContent.setIsEditing(false),
+  );
+  useClickOutside(todoMemo.inputEditRef, () => todoMemo.setIsEditing(false));
   return (
     <div
       className={`${styles.todo_item} ${isDone === 'Y' ? styles.is_done : ''}`}
@@ -49,16 +29,22 @@ export default function TodoItem({
           isChecked={isDone === 'Y'}
           handleCheckBox={handleCheckBox}
         />
-        {isEditing ? (
+        {todoContent.isEditing ? (
           <input
-            ref={contentRef}
+            value={todoContent.inputValue}
+            ref={todoContent.inputEditRef}
+            name="content"
             type="input"
             placeholder="입력"
             className={styles.todo_content}
+            onChange={todoContent.handleChange}
           />
         ) : (
-          <span className={styles.todo_content} onClick={handleTodoEdit}>
-            {content}
+          <span
+            className={styles.todo_content}
+            onClick={todoContent.handleEdit}
+          >
+            {todoContent.inputValue}
           </span>
         )}
 
@@ -70,7 +56,21 @@ export default function TodoItem({
         </div>
       </div>
       <div className={styles.todo_memo}>
-        <span>{memo}</span>
+        {todoMemo.isEditing ? (
+          <input
+            value={todoMemo.inputValue}
+            ref={todoMemo.inputEditRef}
+            type="input"
+            name="memo"
+            placeholder="입력"
+            className={styles.todo_content}
+            onChange={todoMemo.handleChange}
+          />
+        ) : (
+          <span className={styles.todo_content} onClick={todoMemo.handleEdit}>
+            {todoMemo.inputValue}
+          </span>
+        )}
       </div>
     </div>
   );

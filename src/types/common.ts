@@ -1,5 +1,5 @@
 /* todo item */
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, RefObject, SetStateAction } from 'react';
 
 export interface TodoForm {
   regDate: string;
@@ -37,4 +37,13 @@ export interface useDateHookType {
   handlePrev: () => void;
   handleNext: () => void;
   dateTitle: string;
+}
+
+export interface useEditableInputHookType {
+  inputValue: string;
+  isEditing: boolean;
+  inputEditRef: RefObject<HTMLInputElement>;
+  handleEdit: () => void;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
