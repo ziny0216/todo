@@ -13,8 +13,8 @@ export default function DailyView() {
     <div className={styles.todo_list}>
       {todos
         .sort((a, b) => {
-          if (a.isDone === b.isDone) return 0;
-          return a.isDone === 'Y' ? 1 : -1;
+          if (a.is_done === b.is_done) return 0;
+          return a.is_done === 'Y' ? 1 : -1;
         })
         .map((todo: TodoItemType) => (
           <TodoItem

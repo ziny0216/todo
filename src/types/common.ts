@@ -2,13 +2,13 @@
 import { ChangeEvent, Dispatch, RefObject, SetStateAction } from 'react';
 
 export interface TodoForm {
-  regDate: string;
+  todo_date: string;
   content: string;
   memo: string;
 }
 export interface TodoItemType extends TodoForm {
   id: number;
-  isDone: string;
+  is_done: string;
 }
 
 export interface TodoItemProps extends TodoItemType {

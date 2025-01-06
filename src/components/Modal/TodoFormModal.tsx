@@ -14,7 +14,7 @@ export default function TodoFormModal({
   onClose: () => void;
 }) {
   const [todoForm, setTodoForm] = useState<TodoForm>({
-    regDate: '',
+    todo_date: '',
     content: '',
     memo: '',
   });
@@ -30,18 +30,18 @@ export default function TodoFormModal({
   const handleDateSelection = (date: Date) => {
     setTodoForm({
       ...todoForm,
-      regDate: date.toLocaleDateString(),
+      todo_date: date.toLocaleDateString(),
     });
   };
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <div className={styles.todo_form}>
         <Input
-          value={todoForm.regDate}
+          value={todoForm.todo_date}
           readonly={true}
           label={'DATE'}
           id={'date'}
-          name={'regDate'}
+          name={'todo_date'}
           placeholder={'날짜를 선택해주세요.'}
           onClick={() => setIsCalendarOpen(true)}
         />

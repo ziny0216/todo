@@ -1,6 +1,5 @@
 import styles from './Home.module.scss';
 import Button from '../../components/Button/Button.tsx';
-import todoData from '../../mock/todoData.json';
 import { TodoItemType } from '../../types/common.ts';
 import { useEffect, useState } from 'react';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
@@ -8,10 +7,11 @@ import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
 import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import { Outlet, useNavigate } from 'react-router';
+import { supabase } from '../../utils/SupabaseClient.ts';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [todos, setTodos] = useState<TodoItemType[]>(todoData);
+  const [todos, setTodos] = useState<TodoItemType[]>([]);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [todoListType, setTodoListType] = useState<
@@ -21,7 +21,6 @@ export default function Home() {
     useHeaderDate(todoListType);
 
   useEffect(() => {
-    console.log(location, 'date.');
     const path = location.pathname.replace('/', '') as
       | 'daily'
       | 'weekly'
@@ -29,10 +28,26 @@ export default function Home() {
     setTodoListType(path);
   }, [location.pathname]);
 
+  const fetchTodos = async () => {
+    try {
+      const { data, error } = await supabase.from('TODO').select('*');
+      if (error) {
+        console.error('Error fetching todos:', error.message);
+      } else {
+        setTodos(data || []);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
   const handleCheckBox = (id: number) => {
     const newTodos: TodoItemType[] = todos.map(todo => {
       if (todo.id === id) {
-        return { ...todo, isDone: todo.isDone === 'Y' ? 'N' : 'Y' };
+        return { ...todo, is_done: todo.is_done === 'Y' ? 'N' : 'Y' };
       }
       return todo;
     });

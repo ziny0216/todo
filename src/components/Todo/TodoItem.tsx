@@ -9,7 +9,7 @@ export default function TodoItem({
   id,
   content,
   memo,
-  isDone,
+  is_done,
   handleCheckBox,
   handleTodoDelete,
 }: TodoItemProps) {
@@ -21,12 +21,12 @@ export default function TodoItem({
   useClickOutside(todoMemo.inputEditRef, () => todoMemo.setIsEditing(false));
   return (
     <div
-      className={`${styles.todo_item} ${isDone === 'Y' ? styles.is_done : ''}`}
+      className={`${styles.todo_item} ${is_done === 'Y' ? styles.is_done : ''}`}
     >
       <div className={styles.todo_info}>
         <CheckBox
           id={`todo-${id}`}
-          isChecked={isDone === 'Y'}
+          isChecked={is_done === 'Y'}
           handleCheckBox={handleCheckBox}
         />
         {todoContent.isEditing ? (

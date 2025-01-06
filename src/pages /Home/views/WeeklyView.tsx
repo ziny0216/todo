@@ -26,7 +26,7 @@ export default function WeeklyView() {
 
   const dateGroupTodo = todos.reduce(
     (acc: Record<string, TodoItemType[]>, todo) => {
-      const dateKey = new Date(todo.regDate).toLocaleDateString();
+      const dateKey = new Date(todo.todo_date).toLocaleDateString();
       if (!acc[dateKey]) {
         acc[dateKey] = [];
       }
@@ -57,8 +57,8 @@ export default function WeeklyView() {
             >
               {todos
                 .sort((a, b) => {
-                  if (a.isDone === b.isDone) return 0;
-                  return a.isDone === 'Y' ? 1 : -1;
+                  if (a.is_done === b.is_done) return 0;
+                  return a.is_done === 'Y' ? 1 : -1;
                 })
                 .map((todo: TodoItemType) => (
                   <TodoItem
