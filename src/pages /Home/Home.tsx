@@ -2,20 +2,21 @@ import styles from './Home.module.scss';
 import Button from '../../components/Button/Button.tsx';
 import todoData from '../../mock/todoData.json';
 import { TodoItemType } from '../../types/common.ts';
-import TodoItem from '../../components/Todo/TodoItem.tsx';
 import { useState } from 'react';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
 import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
 import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
+import { Outlet, useNavigate } from 'react-router';
 
 export default function Home() {
+  const navigate = useNavigate();
   const [todos, setTodos] = useState<TodoItemType[]>(todoData);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [todoListType, setTodoListType] = useState<'day' | 'month' | 'week'>(
-    'day',
-  );
+  const [todoListType, setTodoListType] = useState<
+    'daily' | 'weekly' | 'monthly'
+  >('daily');
 
   const { dateTitle, handlePrev, handleNext } = useHeaderDate(todoListType);
   const handleCheckBox = (id: number) => {
@@ -32,14 +33,14 @@ export default function Home() {
     const newTodos: TodoItemType[] = todos.filter(todo => todo.id !== id);
     setTodos(newTodos);
   };
-
   const handleToolbarAction = (action: string) => {
     if (action === 'add') {
       setIsOpenModal(true);
       setIsShowToolbar(false);
       return;
     }
-    setTodoListType(action as 'day' | 'month' | 'week');
+    setTodoListType(action as 'daily' | 'weekly' | 'monthly');
+    navigate(`/${action}`);
     setIsShowToolbar(false);
   };
   return (
@@ -51,21 +52,7 @@ export default function Home() {
       />
       <section className={styles.main_section}>
         <div className="inner">
-          <div className={styles.todo_list}>
-            {todos
-              .sort((a, b) => {
-                if (a.isDone === b.isDone) return 0;
-                return a.isDone === 'Y' ? 1 : -1;
-              })
-              .map((todo: TodoItemType) => (
-                <TodoItem
-                  key={todo.id}
-                  {...todo}
-                  handleTodoDelete={() => handleTodoDelete(todo.id)}
-                  handleCheckBox={() => handleCheckBox(todo.id)}
-                />
-              ))}
-          </div>
+          <Outlet context={{ todos, handleTodoDelete, handleCheckBox }} />
         </div>
 
         <Button

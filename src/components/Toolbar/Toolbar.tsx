@@ -30,18 +30,18 @@ export default function Toolbar({
       />
       <Button
         className={['btn_sm', 'btn_text']}
-        text={'day'}
-        handleButton={() => handleButtonClick('day')}
+        text={'daily'}
+        handleButton={() => handleButtonClick('daily')}
       />
       <Button
         className={['btn_sm', 'btn_text']}
-        text={'week'}
-        handleButton={() => handleButtonClick('week')}
+        text={'weekly'}
+        handleButton={() => handleButtonClick('weekly')}
       />
       <Button
         className={['btn_sm', 'btn_text']}
-        text={'month'}
-        handleButton={() => handleButtonClick('month')}
+        text={'monthly'}
+        handleButton={() => handleButtonClick('monthly')}
       />
     </div>
   );

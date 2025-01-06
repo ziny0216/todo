@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDateHookType } from '../types/common.ts';
 
 export default function useHeaderDate(
-  type: 'day' | 'month' | 'week',
+  type: 'daily' | 'weekly' | 'monthly',
 ): useDateHookType {
   const [currentDate, setCurrentDate] = useState(new Date());
   const getWeek = () => {
@@ -18,18 +18,18 @@ export default function useHeaderDate(
   const handlePrev = () => {
     setCurrentDate(prevDate => {
       switch (type) {
-        case 'day':
+        case 'daily':
           return new Date(
             prevDate.getFullYear(),
             prevDate.getMonth(),
             prevDate.getDate() - 1,
           );
-        case 'week': {
+        case 'weekly': {
           const newDate = new Date(prevDate);
           newDate.setDate(prevDate.getDate() - 7);
           return newDate;
         }
-        case 'month':
+        case 'monthly':
           return new Date(
             prevDate.getFullYear(),
             prevDate.getMonth() - 1,
@@ -44,18 +44,18 @@ export default function useHeaderDate(
   const handleNext = () => {
     setCurrentDate(prevDate => {
       switch (type) {
-        case 'day':
+        case 'daily':
           return new Date(
             prevDate.getFullYear(),
             prevDate.getMonth(),
             prevDate.getDate() + 1,
           );
-        case 'week': {
+        case 'weekly': {
           const newDate = new Date(prevDate);
           newDate.setDate(prevDate.getDate() + 7);
           return newDate;
         }
-        case 'month':
+        case 'monthly':
           return new Date(
             prevDate.getFullYear(),
             prevDate.getMonth() + 1,
@@ -70,13 +70,13 @@ export default function useHeaderDate(
 
   let dateTitle = '';
   switch (type) {
-    case 'day':
+    case 'daily':
       dateTitle = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 ${currentDate.getDate()}일`;
       break;
-    case 'week':
+    case 'weekly':
       dateTitle = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 ${getWeek()}주차`;
       break;
-    case 'month':
+    case 'monthly':
       dateTitle = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 `;
       break;
     default:
