@@ -1,0 +1,18 @@
+
+.todo_group {
+
+  .todo_list {
+    overflow: hidden;
+    transition: all 0.3s;
+    .calendar_wrap{
+      padding-top: 0;
+    }
+  }
+
+  .date {
+    cursor: pointer;
+    font-size: $font-size-lg;
+    line-height: $line-height-lg;
+    font-weight: $font-weight-m;
+  }
+}

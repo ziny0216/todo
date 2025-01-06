@@ -13,7 +13,7 @@ export default function CalendarModal({
   handleDateSelection: (date: Date) => void;
 }) {
   const { currentDate, dateTitle, handlePrev, handleNext } =
-    useHeaderDate('month');
+    useHeaderDate('monthly');
   return (
     <BottomModal isOpen={isOpen} onClose={onClose}>
       <Header
@@ -21,6 +21,7 @@ export default function CalendarModal({
         handleNext={handleNext}
         title={dateTitle}
       />
+
       <Calendar
         isPercentage={false}
         currentDate={currentDate}

@@ -37,6 +37,7 @@ export interface useDateHookType {
   handlePrev: () => void;
   handleNext: () => void;
   dateTitle: string;
+  getDateRange: () => { startDate: Date; endDate: Date };
 }
 
 export interface useEditableInputHookType {

@@ -54,7 +54,13 @@ export default function Calendar({
 
         {/*해당 월의 날짜*/}
         {getCurrentData().map(date => {
-          const dateClass = `${styles.date} ${date.getDay() === 0 ? styles.holiday : ''} ${date.getDay() === 6 ? styles.saturday : ''} ${date.getDate() === new Date().getDate() ? styles.today : ''}`;
+          const dateClass = `${styles.date} ${date.getDay() === 0 ? styles.holiday : ''} ${date.getDay() === 6 ? styles.saturday : ''} ${
+            date.getFullYear() === new Date().getFullYear() &&
+            date.getMonth() === new Date().getMonth() &&
+            date.getDate() === new Date().getDate()
+              ? styles.today
+              : ''
+          }`;
           return (
             <li
               key={date.toDateString()}
