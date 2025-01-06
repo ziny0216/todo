@@ -1,6 +1,7 @@
 import styles from './Toolbar.module.scss';
 import Button from '../Button/Button.tsx';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import useClickOutside from '../../hooks/useClickOutside.tsx';
 
 export default function Toolbar({
   isShowToolbar,
@@ -12,18 +13,11 @@ export default function Toolbar({
   handleButtonClick: (action: string) => void;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
-  const handleClickOutside = (e: MouseEvent) => {
-    if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
-      closeToolbar();
-    }
-  };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  useClickOutside(contentRef, () => {
+    closeToolbar();
+  });
+
   return (
     <div
       ref={contentRef}
