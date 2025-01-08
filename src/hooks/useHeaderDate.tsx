@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDateHookType } from '../types/common.ts';
 
 export default function useHeaderDate(
@@ -6,18 +6,30 @@ export default function useHeaderDate(
 ): useDateHookType {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const getDateRange = () => {
+  const { startDate, endDate } = useMemo(() => {
+    console.log(type);
+    if (type === 'daily') {
+      return { startDate: null, endDate: null };
+    }
     const day = currentDate.getDay();
     const startDate = new Date(currentDate);
     const endDate = new Date(currentDate);
-    startDate.setDate(currentDate.getDate() - day);
-    endDate.setDate(startDate.getDate() + 6);
+
+    if (type === 'weekly') {
+      startDate.setDate(currentDate.getDate() - day);
+      endDate.setDate(startDate.getDate() + 6);
+    }
+    if (type === 'monthly') {
+      startDate.setDate(1);
+      endDate.setMonth(endDate.getMonth() + 1);
+      endDate.setDate(0);
+    }
 
     return { startDate, endDate };
-  };
+  }, [currentDate, type]);
 
   const getWeekly = (date: Date): string => {
-    const { startDate, endDate } = getDateRange();
+    if (!endDate || !startDate) return '';
     const today = date.getDate();
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1); // 해당 월의 1일
     const firstWeeks = firstDayOfMonth.getDay(); // 1일의 요일 (0 = 일요일)
@@ -39,7 +51,9 @@ export default function useHeaderDate(
             prevDate.getDate() - 1,
           );
         case 'weekly': {
-          const { startDate } = getDateRange();
+          if (!startDate) {
+            return new Date();
+          }
           const newDate = new Date(startDate);
           newDate.setDate(startDate.getDate() - 7);
           return newDate;
@@ -66,7 +80,9 @@ export default function useHeaderDate(
             prevDate.getDate() + 1,
           );
         case 'weekly': {
-          const { startDate } = getDateRange();
+          if (!startDate) {
+            return new Date();
+          }
           const newDate = new Date(startDate);
           newDate.setDate(startDate.getDate() + 7);
           return newDate;
@@ -99,5 +115,5 @@ export default function useHeaderDate(
       dateTitle = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 `;
   }
 
-  return { currentDate, dateTitle, handlePrev, handleNext, getDateRange };
+  return { currentDate, dateTitle, handlePrev, handleNext, startDate, endDate };
 }

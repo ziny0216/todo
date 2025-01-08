@@ -5,15 +5,12 @@ import TodoItem from '../../../components/Todo/TodoItem.tsx';
 import { useEffect, useRef, useState } from 'react';
 
 export default function WeeklyView() {
-  const { todos, handleTodoDelete, handleCheckBox, getDateRange } =
-    useOutletContext<{
-      todos: TodoItemType[];
-      handleTodoDelete: (id: number) => void;
-      handleCheckBox: (id: number) => void;
-      getDateRange: () => { startDate: Date; endDate: Date };
-    }>();
-  const { startDate, endDate } = getDateRange();
-  console.log(startDate, endDate, 'startDate, endDate');
+  const { todos, handleTodoDelete, handleCheckBox } = useOutletContext<{
+    todos: TodoItemType[];
+    handleTodoDelete: (id: number) => void;
+    handleCheckBox: (id: number) => void;
+  }>();
+
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
   const [activeTodo, setActiveTodo] = useState<string>();

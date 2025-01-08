@@ -37,7 +37,8 @@ export interface useDateHookType {
   handlePrev: () => void;
   handleNext: () => void;
   dateTitle: string;
-  getDateRange: () => { startDate: Date; endDate: Date };
+  startDate: Date | null;
+  endDate: Date | null;
 }
 
 export interface useEditableInputHookType {
@@ -47,4 +48,10 @@ export interface useEditableInputHookType {
   handleEdit: () => void;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface todoCtnType {
+  date: Date;
+  total_todos: number;
+  done_todos: number;
 }

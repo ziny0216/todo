@@ -1,51 +1,80 @@
 import styles from './Home.module.scss';
 import Button from '../../components/Button/Button.tsx';
-import { TodoItemType } from '../../types/common.ts';
-import { useEffect, useState } from 'react';
-import Toolbar from '../../components/Toolbar/Toolbar.tsx';
+import { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
-import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import { Outlet, useNavigate } from 'react-router';
 import { supabase } from '../../utils/SupabaseClient.ts';
+import { formatDate } from '../../utils/common.ts';
+import Toolbar from '../../components/Toolbar/Toolbar.tsx';
+import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
+import { Tables } from '../../types/database.types.ts';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [todos, setTodos] = useState<TodoItemType[]>([]);
+  const [todos, setTodos] = useState<Tables<'TODO'>[]>([]);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [todoListType, setTodoListType] = useState<
-    'daily' | 'weekly' | 'monthly'
-  >('daily');
-  const { currentDate, dateTitle, handlePrev, handleNext, getDateRange } =
-    useHeaderDate(todoListType);
+  const path = location.pathname.replace('/', '') as
+    | 'daily'
+    | 'weekly'
+    | 'monthly';
+  const { currentDate, dateTitle, handlePrev, handleNext, startDate, endDate } =
+    useHeaderDate(path);
 
   useEffect(() => {
-    const path = location.pathname.replace('/', '') as
-      | 'daily'
-      | 'weekly'
-      | 'monthly';
-    setTodoListType(path);
-  }, [location.pathname]);
+    fetchTodos(
+      formatDate(currentDate),
+      formatDate(startDate),
+      formatDate(endDate),
+    );
+  }, [currentDate, startDate, endDate]);
 
-  const fetchTodos = async () => {
-    try {
-      const { data, error } = await supabase.from('TODO').select('*');
-      if (error) {
-        console.error('Error fetching todos:', error.message);
-      } else {
-        setTodos(data || []);
+  const fetchTodos = useCallback(
+    async (
+      currentDate: string = '',
+      startDate: string = '',
+      endDate: string = '',
+    ) => {
+      try {
+        let data, error;
+
+        if (path === 'monthly') {
+          ({ data, error } = await supabase.rpc('get_todo_summary', {
+            start_date: startDate,
+            end_date: endDate,
+          }));
+
+          if (error) {
+            console.error('Error fetching todos:', error.message);
+          } else {
+            console.log(data);
+          }
+        } else {
+          let query = supabase.from('TODO').select('*');
+
+          if (startDate && endDate) {
+            query = query.gte('todo_date', startDate).lte('todo_date', endDate);
+          } else if (currentDate) {
+            query = query.eq('todo_date', currentDate);
+          }
+
+          ({ data, error } = await query);
+          if (error) {
+            console.error('Error fetching todos:', error.message);
+          } else {
+            setTodos(data || []);
+          }
+        }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  useEffect(() => {
-    fetchTodos();
-  }, []);
+    },
+    [],
+  );
 
   const handleCheckBox = (id: number) => {
-    const newTodos: TodoItemType[] = todos.map(todo => {
+    const newTodos: Tables<'TODO'>[] = todos.map(todo => {
       if (todo.id === id) {
         return { ...todo, is_done: todo.is_done === 'Y' ? 'N' : 'Y' };
       }
@@ -55,7 +84,7 @@ export default function Home() {
   };
 
   const handleTodoDelete = (id: number) => {
-    const newTodos: TodoItemType[] = todos.filter(todo => todo.id !== id);
+    const newTodos: Tables<'TODO'>[] = todos.filter(todo => todo.id !== id);
     setTodos(newTodos);
   };
   const handleToolbarAction = (action: string) => {
@@ -64,7 +93,6 @@ export default function Home() {
       setIsShowToolbar(false);
       return;
     }
-    setTodoListType(action as 'daily' | 'weekly' | 'monthly');
     navigate(`/${action}`);
     setIsShowToolbar(false);
   };
@@ -84,7 +112,8 @@ export default function Home() {
               handleTodoDelete,
               handleCheckBox,
               currentDate,
-              getDateRange,
+              startDate,
+              endDate,
             }}
           />
         </div>
