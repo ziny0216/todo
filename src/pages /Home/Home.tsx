@@ -7,7 +7,7 @@ import { Outlet, useNavigate } from 'react-router';
 import { supabase } from '../../utils/SupabaseClient.ts';
 import { formatDate } from '../../utils/common.ts';
 import { Tables } from '../../types/database.types.ts';
-import { TodoSummaryType } from '../../types/common.ts';
+import { TodoForm, TodoSummaryType } from '../../types/common.ts';
 import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
 
@@ -32,6 +32,7 @@ export default function Home() {
     );
   }, [currentDate, startDate, endDate]);
 
+  // todo 리스트 호출
   const fetchTodos = useCallback(
     async (
       currentDate: string = '',
@@ -41,6 +42,7 @@ export default function Home() {
       try {
         let data, error;
 
+        // 월간일 경우 ctn 불러오기
         if (path === 'monthly') {
           ({ data, error } = await supabase.rpc('get_todo_summary', {
             start_date: startDate,
@@ -53,6 +55,7 @@ export default function Home() {
             setTodoCnt(data || []);
           }
         } else {
+          // 그 외 리스트 불러오기
           let query = supabase.from('TODO').select('*');
 
           if (startDate && endDate) {
@@ -75,6 +78,30 @@ export default function Home() {
     [],
   );
 
+  //todo 등록
+  const onSubmit = async (form: TodoForm) => {
+    try {
+      const { data, error } = await supabase
+        .from('TODO')
+        .insert([
+          {
+            todo_date: form.todo_date,
+            content: form.content,
+            memo: form.memo,
+          },
+        ])
+        .select();
+      if (error) {
+        console.error('Error fetching todos:', error.message);
+      } else {
+        setTodos([...todos, ...(data || [])]);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // todo 완료 처리
   const handleCheckBox = (id: number) => {
     const newTodos: Tables<'TODO'>[] = todos.map(todo => {
       if (todo.id === id) {
@@ -85,10 +112,13 @@ export default function Home() {
     setTodos(newTodos);
   };
 
+  // todo 삭제
   const handleTodoDelete = (id: number) => {
     const newTodos: Tables<'TODO'>[] = todos.filter(todo => todo.id !== id);
     setTodos(newTodos);
   };
+
+  //todo 툴바
   const handleToolbarAction = (action: string) => {
     if (action === 'add') {
       setIsOpenModal(true);
@@ -132,6 +162,7 @@ export default function Home() {
         />
 
         <TodoFormModal
+          onSubmit={onSubmit}
           onClose={() => setIsOpenModal(false)}
           isOpen={isOpenModal}
         />

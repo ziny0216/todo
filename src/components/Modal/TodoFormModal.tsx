@@ -5,13 +5,16 @@ import Input from '../Input/Input.tsx';
 import { ChangeEvent, useState } from 'react';
 import { TodoForm } from '../../types/common.ts';
 import CalendarModal from './CalendarModal.tsx';
+import { formatDate } from '../../utils/common.ts';
 
 export default function TodoFormModal({
   isOpen,
   onClose,
+  onSubmit,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  onSubmit: (form: TodoForm) => void;
 }) {
   const [todoForm, setTodoForm] = useState<TodoForm>({
     todo_date: '',
@@ -30,7 +33,22 @@ export default function TodoFormModal({
   const handleDateSelection = (date: Date) => {
     setTodoForm({
       ...todoForm,
-      todo_date: date.toLocaleDateString(),
+      todo_date: formatDate(date),
+    });
+  };
+
+  const handleTodoSubmit = () => {
+    if (!todoForm.todo_date) {
+      alert('날짜를 선택해주세요');
+    }
+    if (!todoForm.content) {
+      alert('내용을 입력해주세요');
+    }
+    onSubmit(todoForm);
+    setTodoForm({
+      todo_date: '',
+      content: '',
+      memo: '',
     });
   };
   return (
@@ -47,6 +65,7 @@ export default function TodoFormModal({
         />
         <Input
           label={'TODO'}
+          value={todoForm.content}
           id={'content'}
           name={'content'}
           placeholder={'할 일을 작성해주세요.'}
@@ -54,6 +73,7 @@ export default function TodoFormModal({
         />
         <Input
           label={'MEMO'}
+          value={todoForm.memo}
           id={'memo'}
           name={'memo'}
           placeholder={'메모를 작성해주세요.'}
@@ -66,6 +86,7 @@ export default function TodoFormModal({
           className={['btn_xl', 'btn_gray']}
           text={'등록'}
           handleButton={() => {
+            handleTodoSubmit();
             onClose();
           }}
         ></Button>
