@@ -4,17 +4,19 @@
   padding: 16px 8px;
   gap: 8px;
   border-bottom: 1px solid $gray-200;
-
+  color:$gray-900;
   &.is_done {
     background-color: $gray-50;
-    color: $gray-300;
+
 
     .todo_content {
+      color: $gray-300;
       text-decoration: line-through;
       @extend .ellipsis1;
 
       &:focus {
         text-decoration: none;
+        color:$gray-900
       }
     }
 

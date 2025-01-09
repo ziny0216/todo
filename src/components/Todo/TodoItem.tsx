@@ -2,8 +2,8 @@ import styles from './TodoItem.module.scss';
 import Button from '../Button/Button.tsx';
 import { TodoItemProps } from '../../types/common.ts';
 import CheckBox from '../Input/CheckBox.tsx';
-import useEditableInput from '../../hooks/useEditableInput.tsx';
 import useClickOutside from '../../hooks/useClickOutside.tsx';
+import { ChangeEvent, useRef, useState } from 'react';
 
 export default function TodoItem({
   id,
@@ -12,13 +12,29 @@ export default function TodoItem({
   is_done,
   handleCheckBox,
   handleTodoDelete,
+  handleTodoEdit,
 }: TodoItemProps) {
-  const todoContent = useEditableInput(content);
-  const todoMemo = useEditableInput(memo);
-  useClickOutside(todoContent.inputEditRef, () =>
-    todoContent.setIsEditing(false),
-  );
-  useClickOutside(todoMemo.inputEditRef, () => todoMemo.setIsEditing(false));
+  const [editTodo, setEditTodo] = useState({
+    content: content,
+    memo: memo,
+  });
+  const contentRef = useRef<HTMLInputElement>(null);
+  const memoRef = useRef<HTMLInputElement>(null);
+  useClickOutside(contentRef, () => contentRef.current?.blur());
+  useClickOutside(memoRef, () => contentRef.current?.blur());
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditTodo({
+      ...editTodo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSave = () => {
+    if (editTodo.content !== content || editTodo.memo !== memo) {
+      handleTodoEdit(id, editTodo);
+    }
+  };
   return (
     <div
       className={`${styles.todo_item} ${is_done === 'Y' ? styles.is_done : ''}`}
@@ -28,26 +44,17 @@ export default function TodoItem({
           id={`todo-${id}`}
           isChecked={is_done === 'Y'}
           handleCheckBox={handleCheckBox}
+        />{' '}
+        <input
+          value={editTodo.content}
+          ref={contentRef}
+          name="content"
+          type="input"
+          placeholder="입력"
+          className={styles.todo_content}
+          onChange={handleChange}
+          onBlur={handleSave}
         />
-        {todoContent.isEditing ? (
-          <input
-            value={todoContent.inputValue}
-            ref={todoContent.inputEditRef}
-            name="content"
-            type="input"
-            placeholder="입력"
-            className={styles.todo_content}
-            onChange={todoContent.handleChange}
-          />
-        ) : (
-          <span
-            className={styles.todo_content}
-            onClick={todoContent.handleEdit}
-          >
-            {todoContent.inputValue}
-          </span>
-        )}
-
         <div className="btn_group ml_auto">
           <Button
             handleButton={handleTodoDelete}
@@ -56,21 +63,16 @@ export default function TodoItem({
         </div>
       </div>
       <div className={styles.todo_memo}>
-        {todoMemo.isEditing ? (
-          <input
-            value={todoMemo.inputValue}
-            ref={todoMemo.inputEditRef}
-            type="input"
-            name="memo"
-            placeholder="입력"
-            className={styles.todo_content}
-            onChange={todoMemo.handleChange}
-          />
-        ) : (
-          <span className={styles.todo_content} onClick={todoMemo.handleEdit}>
-            {todoMemo.inputValue}
-          </span>
-        )}
+        <input
+          value={editTodo.memo}
+          ref={memoRef}
+          name="memo"
+          type="input"
+          placeholder="입력"
+          className={styles.todo_content}
+          onChange={handleChange}
+          onBlur={handleSave}
+        />
       </div>
     </div>
   );

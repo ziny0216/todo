@@ -101,6 +101,34 @@ export default function Home() {
     }
   };
 
+  const handleTodoEdit = async (
+    id: number,
+    form: { content: string; memo: string },
+  ) => {
+    try {
+      const { data, error } = await supabase
+        .from('TODO')
+        .update({ content: form.content, memo: form.memo })
+        .eq('id', id)
+        .select();
+
+      console.log(data);
+      if (error) {
+        console.error('Error fetching todos:', error.message);
+      } else {
+        setTodos(prevTodos =>
+          prevTodos.map(item =>
+            item.id === id
+              ? { ...item, content: form.content, memo: form.memo }
+              : item,
+          ),
+        );
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // todo 완료 처리
   const handleCheckBox = (id: number) => {
     const newTodos: Tables<'TODO'>[] = todos.map(todo => {
@@ -147,6 +175,7 @@ export default function Home() {
               currentDate,
               startDate,
               endDate,
+              handleTodoEdit,
             }}
           />
         </div>

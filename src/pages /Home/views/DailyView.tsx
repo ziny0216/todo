@@ -4,11 +4,16 @@ import { TodoItemType } from '../../../types/common.ts';
 import TodoItem from '../../../components/Todo/TodoItem.tsx';
 
 export default function DailyView() {
-  const { todos, handleTodoDelete, handleCheckBox } = useOutletContext<{
-    todos: TodoItemType[];
-    handleTodoDelete: (id: number) => void;
-    handleCheckBox: (id: number) => void;
-  }>();
+  const { todos, handleTodoDelete, handleCheckBox, handleTodoEdit } =
+    useOutletContext<{
+      todos: TodoItemType[];
+      handleTodoDelete: (id: number) => void;
+      handleCheckBox: (id: number) => void;
+      handleTodoEdit: (
+        id: number,
+        form: { content: string; memo: string },
+      ) => void;
+    }>();
   return (
     <div className={styles.todo_list}>
       {todos
@@ -22,6 +27,7 @@ export default function DailyView() {
             {...todo}
             handleTodoDelete={() => handleTodoDelete(todo.id)}
             handleCheckBox={() => handleCheckBox(todo.id)}
+            handleTodoEdit={handleTodoEdit}
           />
         ))}
     </div>
