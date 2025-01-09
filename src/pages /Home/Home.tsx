@@ -6,13 +6,15 @@ import useHeaderDate from '../../hooks/useHeaderDate.tsx';
 import { Outlet, useNavigate } from 'react-router';
 import { supabase } from '../../utils/SupabaseClient.ts';
 import { formatDate } from '../../utils/common.ts';
-import Toolbar from '../../components/Toolbar/Toolbar.tsx';
-import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import { Tables } from '../../types/database.types.ts';
+import { TodoSummaryType } from '../../types/common.ts';
+import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
+import Toolbar from '../../components/Toolbar/Toolbar.tsx';
 
 export default function Home() {
   const navigate = useNavigate();
   const [todos, setTodos] = useState<Tables<'TODO'>[]>([]);
+  const [todoCnt, setTodoCnt] = useState<TodoSummaryType>([]);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const path = location.pathname.replace('/', '') as
@@ -48,7 +50,7 @@ export default function Home() {
           if (error) {
             console.error('Error fetching todos:', error.message);
           } else {
-            console.log(data);
+            setTodoCnt(data || []);
           }
         } else {
           let query = supabase.from('TODO').select('*');
@@ -109,6 +111,7 @@ export default function Home() {
           <Outlet
             context={{
               todos,
+              todoCnt,
               handleTodoDelete,
               handleCheckBox,
               currentDate,

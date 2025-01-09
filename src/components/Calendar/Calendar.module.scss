@@ -81,7 +81,7 @@
     color: $gray-900;
     font-size: $font-size-xxs;
     line-height: $line-height-xxs;
-
+display: flex;flex-direction: column;
     .percent {
       font-weight: $font-weight-semi;
 

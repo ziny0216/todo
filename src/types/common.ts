@@ -1,5 +1,6 @@
 /* todo item */
 import { ChangeEvent, Dispatch, RefObject, SetStateAction } from 'react';
+import { Database } from './database.types.ts';
 
 export interface TodoForm {
   todo_date: string;
@@ -55,3 +56,6 @@ export interface todoCtnType {
   total_todos: number;
   done_todos: number;
 }
+
+export type TodoSummaryType =
+  Database['public']['Functions']['get_todo_summary']['Returns'];

@@ -7,7 +7,6 @@ export default function useHeaderDate(
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const { startDate, endDate } = useMemo(() => {
-    console.log(type);
     if (type === 'daily') {
       return { startDate: null, endDate: null };
     }

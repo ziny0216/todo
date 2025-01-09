@@ -1,13 +1,17 @@
 import styles from './Calendar.module.scss';
+import { TodoSummaryType } from '../../types/common.ts';
+import { formatDate } from '../../utils/common.ts';
 
 export default function Calendar({
   handleDateSelection,
   currentDate,
   isPercentage,
+  cntData,
 }: {
   handleDateSelection: (date: Date) => void;
   currentDate: Date;
   isPercentage: boolean;
+  cntData?: TodoSummaryType;
 }) {
   const days: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -23,11 +27,34 @@ export default function Calendar({
   );
 
   const getCurrentData = () => {
-    const date = [];
+    const dateArr: {
+      date: Date;
+      total_todos?: number;
+      done_todos?: number;
+      percentage?: number;
+    }[] = [];
     for (let i = 1; i <= lastDay.getDate(); i++) {
-      date.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
+      dateArr.push({
+        date: new Date(currentDate.getFullYear(), currentDate.getMonth(), i),
+      });
     }
-    return date;
+    if (isPercentage && cntData) {
+      return dateArr.map(item => {
+        const matched = cntData.find(
+          match => match.date === formatDate(item.date),
+        );
+        if (matched) {
+          return {
+            ...item,
+            total_todos: matched.total_todos,
+            done_todos: matched.done_todos,
+            percentage: (matched.done_todos / matched.total_todos) * 100,
+          };
+        }
+        return item;
+      });
+    }
+    return dateArr;
   };
 
   return (
@@ -54,24 +81,28 @@ export default function Calendar({
 
         {/*해당 월의 날짜*/}
         {getCurrentData().map(date => {
-          const dateClass = `${styles.date} ${date.getDay() === 0 ? styles.holiday : ''} ${date.getDay() === 6 ? styles.saturday : ''} ${
-            date.getFullYear() === new Date().getFullYear() &&
-            date.getMonth() === new Date().getMonth() &&
-            date.getDate() === new Date().getDate()
+          const dateClass = `${styles.date} ${date.date.getDay() === 0 ? styles.holiday : ''} ${date.date.getDay() === 6 ? styles.saturday : ''} ${
+            date.date.getFullYear() === new Date().getFullYear() &&
+            date.date.getMonth() === new Date().getMonth() &&
+            date.date.getDate() === new Date().getDate()
               ? styles.today
               : ''
           }`;
           return (
             <li
-              key={date.toDateString()}
+              key={date.date.toDateString()}
               className={dateClass}
-              onClick={() => handleDateSelection(date)}
+              onClick={() => handleDateSelection(date.date)}
             >
-              <span className={styles.date_num}>{date.getDate()}</span>
-              {isPercentage && (
+              <span className={styles.date_num}>{date.date.getDate()}</span>
+              {date.total_todos && date.total_todos > 0 && (
                 <div className={styles.goal_figure}>
-                  <span className={styles.percent}>50% 달성</span>
-                  <span>1001개 /10110개</span>
+                  <span className={styles.percent}>
+                    {date.percentage}% 달성
+                  </span>
+                  <span>
+                    {date.done_todos}개 /{date.total_todos}개
+                  </span>
                 </div>
               )}
             </li>
