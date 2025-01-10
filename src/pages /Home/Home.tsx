@@ -13,7 +13,7 @@ import Toolbar from '../../components/Toolbar/Toolbar.tsx';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [todos, setTodos] = useState<Tables<'TODO'>[]>([]);
+  const [todos, setTodos] = useState<Tables<'todos'>[]>([]);
   const [todoCnt, setTodoCnt] = useState<TodoSummaryType>([]);
   const [isShowToolbar, setIsShowToolbar] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -63,7 +63,7 @@ export default function Home() {
           }
         } else {
           // 그 외 리스트 불러오기
-          let query = supabase.from('TODO').select('*');
+          let query = supabase.from('todos').select('*');
           console.log('일간!!!!!');
           if (startDate && endDate) {
             query = query.gte('todo_date', startDate).lte('todo_date', endDate);
@@ -89,7 +89,7 @@ export default function Home() {
   const onSubmit = async (form: TodoForm) => {
     try {
       const { data, error } = await supabase
-        .from('TODO')
+        .from('todos')
         .insert([
           {
             todo_date: form.todo_date,
@@ -116,7 +116,7 @@ export default function Home() {
   ) => {
     try {
       const { data, error } = await supabase
-        .from('TODO')
+        .from('todos')
         .update({
           content: form.content,
           memo: form.memo,
@@ -142,11 +142,13 @@ export default function Home() {
   // todo 삭제
   const handleTodoDelete = async (id: number) => {
     try {
-      const { error } = await supabase.from('TODO').delete().eq('id', id);
+      const { error } = await supabase.from('todos').delete().eq('id', id);
       if (error) {
         console.error('Error fetching todos:', error.message);
       } else {
-        const newTodos: Tables<'TODO'>[] = todos.filter(todo => todo.id !== id);
+        const newTodos: Tables<'todos'>[] = todos.filter(
+          todo => todo.id !== id,
+        );
         setTodos(newTodos);
       }
     } catch (e) {
