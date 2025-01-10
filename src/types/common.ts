@@ -13,7 +13,6 @@ export interface TodoItemType extends TodoForm {
 }
 
 export interface TodoItemProps extends TodoItemType {
-  handleCheckBox: () => void;
   handleTodoDelete: () => void;
   handleTodoEdit: (id: number, form: { content: string; memo: string }) => void;
 }

@@ -1,4 +1,5 @@
 import styles from '../Input/Input.module.scss';
+import { ChangeEvent } from 'react';
 
 export default function CheckBox({
   id,
@@ -7,10 +8,10 @@ export default function CheckBox({
 }: {
   id: string;
   isChecked: boolean;
-  handleCheckBox: () => void;
+  handleCheckBox: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
-  const onChangeCheckBox = () => {
-    handleCheckBox();
+  const onChangeCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    handleCheckBox(e);
   };
   return (
     <div className={styles.default_chk_box}>

@@ -10,13 +10,13 @@ export default function TodoItem({
   content,
   memo,
   is_done,
-  handleCheckBox,
   handleTodoDelete,
   handleTodoEdit,
 }: TodoItemProps) {
   const [editTodo, setEditTodo] = useState({
     content: content,
     memo: memo,
+    is_done: is_done,
   });
   const contentRef = useRef<HTMLInputElement>(null);
   const memoRef = useRef<HTMLInputElement>(null);
@@ -35,6 +35,17 @@ export default function TodoItem({
       handleTodoEdit(id, editTodo);
     }
   };
+
+  const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditTodo(prevEdit => {
+      const updatedTodo = {
+        ...prevEdit,
+        is_done: e.target.checked ? 'Y' : 'N',
+      };
+      handleTodoEdit(id, updatedTodo);
+      return updatedTodo;
+    });
+  };
   return (
     <div
       className={`${styles.todo_item} ${is_done === 'Y' ? styles.is_done : ''}`}
@@ -44,7 +55,7 @@ export default function TodoItem({
           id={`todo-${id}`}
           isChecked={is_done === 'Y'}
           handleCheckBox={handleCheckBox}
-        />{' '}
+        />
         <input
           value={editTodo.content}
           ref={contentRef}

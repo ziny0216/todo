@@ -112,12 +112,17 @@ export default function Home() {
   //todo 수정
   const handleTodoEdit = async (
     id: number,
-    form: { content: string; memo: string },
+    form: { content: string; memo: string; is_done: 'Y' | 'N' },
   ) => {
     try {
+      console.log(form);
       const { data, error } = await supabase
         .from('TODO')
-        .update({ content: form.content, memo: form.memo })
+        .update({
+          content: form.content,
+          memo: form.memo,
+          is_done: form.is_done,
+        })
         .eq('id', id)
         .select();
 
@@ -126,27 +131,12 @@ export default function Home() {
         console.error('Error fetching todos:', error.message);
       } else {
         setTodos(prevTodos =>
-          prevTodos.map(item =>
-            item.id === id
-              ? { ...item, content: form.content, memo: form.memo }
-              : item,
-          ),
+          prevTodos.map(item => (item.id === id ? { ...item, ...form } : item)),
         );
       }
     } catch (e) {
       console.error(e);
     }
-  };
-
-  // todo 완료 처리
-  const handleCheckBox = (id: number) => {
-    const newTodos: Tables<'TODO'>[] = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, is_done: todo.is_done === 'Y' ? 'N' : 'Y' };
-      }
-      return todo;
-    });
-    setTodos(newTodos);
   };
 
   // todo 삭제
@@ -189,7 +179,6 @@ export default function Home() {
               todos,
               todoCnt,
               handleTodoDelete,
-              handleCheckBox,
               currentDate,
               startDate,
               endDate,
