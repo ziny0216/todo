@@ -36,6 +36,7 @@ export interface InputProps {
 
 export interface useDateHookType {
   currentDate: Date;
+  setCurrentDate: Dispatch<SetStateAction<Date>>;
   handlePrev: () => void;
   handleNext: () => void;
   dateTitle: string;

@@ -21,8 +21,15 @@ export default function Home() {
     | 'daily'
     | 'weekly'
     | 'monthly';
-  const { currentDate, dateTitle, handlePrev, handleNext, startDate, endDate } =
-    useHeaderDate(path);
+  const {
+    currentDate,
+    setCurrentDate,
+    dateTitle,
+    handlePrev,
+    handleNext,
+    startDate,
+    endDate,
+  } = useHeaderDate(path);
 
   useEffect(() => {
     fetchTodos(
@@ -95,12 +102,14 @@ export default function Home() {
         console.error('Error fetching todos:', error.message);
       } else {
         setTodos([...todos, ...(data || [])]);
+        setCurrentDate(new Date(form.todo_date));
       }
     } catch (e) {
       console.error(e);
     }
   };
 
+  //todo 수정
   const handleTodoEdit = async (
     id: number,
     form: { content: string; memo: string },
@@ -141,9 +150,18 @@ export default function Home() {
   };
 
   // todo 삭제
-  const handleTodoDelete = (id: number) => {
-    const newTodos: Tables<'TODO'>[] = todos.filter(todo => todo.id !== id);
-    setTodos(newTodos);
+  const handleTodoDelete = async (id: number) => {
+    try {
+      const { error } = await supabase.from('TODO').delete().eq('id', id);
+      if (error) {
+        console.error('Error fetching todos:', error.message);
+      } else {
+        const newTodos: Tables<'TODO'>[] = todos.filter(todo => todo.id !== id);
+        setTodos(newTodos);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   //todo 툴바

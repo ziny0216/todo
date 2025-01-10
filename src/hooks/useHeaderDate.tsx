@@ -114,5 +114,13 @@ export default function useHeaderDate(
       dateTitle = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 `;
   }
 
-  return { currentDate, dateTitle, handlePrev, handleNext, startDate, endDate };
+  return {
+    currentDate,
+    setCurrentDate,
+    dateTitle,
+    handlePrev,
+    handleNext,
+    startDate,
+    endDate,
+  };
 }
