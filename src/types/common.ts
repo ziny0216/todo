@@ -52,11 +52,5 @@ export interface useEditableInputHookType {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface todoCtnType {
-  date: Date;
-  total_todos: number;
-  done_todos: number;
-}
-
 export type TodoSummaryType =
   Database['public']['Functions']['get_todo_summary']['Returns'];

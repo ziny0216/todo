@@ -48,7 +48,7 @@ export default function Home() {
     ) => {
       try {
         let data, error;
-
+        console.log(path, 'path');
         // 월간일 경우 ctn 불러오기
         if (path === 'monthly') {
           ({ data, error } = await supabase.rpc('get_todo_summary', {
@@ -64,7 +64,7 @@ export default function Home() {
         } else {
           // 그 외 리스트 불러오기
           let query = supabase.from('TODO').select('*');
-
+          console.log('일간!!!!!');
           if (startDate && endDate) {
             query = query.gte('todo_date', startDate).lte('todo_date', endDate);
           } else if (currentDate) {
@@ -82,7 +82,7 @@ export default function Home() {
         console.error(e);
       }
     },
-    [],
+    [path],
   );
 
   //todo 등록
@@ -115,7 +115,6 @@ export default function Home() {
     form: { content: string; memo: string; is_done: 'Y' | 'N' },
   ) => {
     try {
-      console.log(form);
       const { data, error } = await supabase
         .from('TODO')
         .update({
@@ -125,13 +124,14 @@ export default function Home() {
         })
         .eq('id', id)
         .select();
-
-      console.log(data);
+      console.log(data, 'data');
       if (error) {
         console.error('Error fetching todos:', error.message);
       } else {
         setTodos(prevTodos =>
-          prevTodos.map(item => (item.id === id ? { ...item, ...form } : item)),
+          prevTodos.map(item =>
+            item.id === id ? { ...item, ...data[0] } : item,
+          ),
         );
       }
     } catch (e) {
@@ -180,6 +180,7 @@ export default function Home() {
               todoCnt,
               handleTodoDelete,
               currentDate,
+              setCurrentDate,
               startDate,
               endDate,
               handleTodoEdit,
