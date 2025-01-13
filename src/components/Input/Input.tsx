@@ -13,6 +13,7 @@ export default function Input({
   readonly,
   onChange,
   onClick,
+  children,
 }: InputProps) {
   return (
     <div className={styles.default_input}>
@@ -29,6 +30,7 @@ export default function Input({
         onChange={onChange}
         onClick={onClick}
       ></input>
+      {children}
     </div>
   );
 }

@@ -2,8 +2,23 @@ import styles from './Auth.module.scss';
 import Input from '../../components/Input/Input.tsx';
 import Button from '../../components/Button/Button.tsx';
 import { Link } from 'react-router';
+import { ChangeEvent } from 'react';
+import { FormErrors } from '../../types/common.ts';
 
-export default function AuthForm({ type }: { type: 'login' | 'signup' }) {
+export default function AuthForm({
+  type,
+  getAuthForm,
+  handleButton,
+  error,
+}: {
+  type: 'login' | 'signup';
+  getAuthForm: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleButton: () => void;
+  error?: FormErrors;
+}) {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    getAuthForm(e);
+  };
   return (
     <section className={styles.auth_section}>
       <div className={`inner ${styles.inner}`}>
@@ -16,22 +31,34 @@ export default function AuthForm({ type }: { type: 'login' | 'signup' }) {
             id={'email'}
             name={'email'}
             placeholder={'이메일을 입력해주세요'}
-          />
+            onChange={onChange}
+          >
+            <p>{error?.email}</p>
+          </Input>
           {type === 'signup' && (
             <Input
+              maxLength={8}
               label={'nickname'}
               id={'nickname'}
               name={'nickname'}
-              placeholder={'닉네임을 입력해주세요'}
+              placeholder={'최대 8자 닉네임을 입력해주세요'}
+              onChange={onChange}
             />
           )}
           <Input
+            type={'password'}
             label={'password'}
             id={'password'}
             name={'password'}
-            placeholder={'비밀번호를 입력해주세요'}
-          />
+            placeholder={
+              '특수문자 + 숫자 + 영문자 포함 비밀번호를 입력해주세요'
+            }
+            onChange={onChange}
+          >
+            <p>{error?.password}</p>
+          </Input>
           <Button
+            handleButton={handleButton}
             className={['btn_xxl', 'btn_purple']}
             text={type === 'login' ? '로그인' : '회원가입'}
           />

@@ -1,5 +1,11 @@
 /* todo item */
-import { ChangeEvent, Dispatch, RefObject, SetStateAction } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  ReactNode,
+  RefObject,
+  SetStateAction,
+} from 'react';
 import { Database } from './database.types.ts';
 
 export interface TodoForm {
@@ -31,6 +37,7 @@ export interface InputProps {
   readonly?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick?: () => void;
+  children?: ReactNode;
 }
 
 export interface useDateHookType {
@@ -54,3 +61,14 @@ export interface useEditableInputHookType {
 
 export type TodoSummaryType =
   Database['public']['Functions']['get_todo_summary']['Returns'];
+
+export interface AuthFormType {
+  email: string;
+  nickname?: string;
+  password: string;
+}
+
+export interface FormErrors {
+  email?: string;
+  password?: string;
+}

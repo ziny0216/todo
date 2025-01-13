@@ -48,7 +48,6 @@ export default function Home() {
     ) => {
       try {
         let data, error;
-        console.log(path, 'path');
         // 월간일 경우 ctn 불러오기
         if (path === 'monthly') {
           ({ data, error } = await supabase.rpc('get_todo_summary', {
@@ -64,7 +63,6 @@ export default function Home() {
         } else {
           // 그 외 리스트 불러오기
           let query = supabase.from('todos').select('*');
-          console.log('일간!!!!!');
           if (startDate && endDate) {
             query = query.gte('todo_date', startDate).lte('todo_date', endDate);
           } else if (currentDate) {
