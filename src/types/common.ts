@@ -1,7 +1,13 @@
+export interface ProtectedRouteProps {
+  element: ReactElement;
+  redirectTo?: string;
+}
+
 /* todo item */
 import {
   ChangeEvent,
   Dispatch,
+  ReactElement,
   ReactNode,
   RefObject,
   SetStateAction,
