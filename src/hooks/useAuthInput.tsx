@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { AuthFormType, FormErrors } from '../types/common.ts';
 import { emailRegex, validateInput } from '../utils/RegEx.ts';
 
@@ -9,6 +9,7 @@ export const useAuthInput = () => {
     password: '',
   });
   const [error, setError] = useState<FormErrors>({});
+  const [isValid, setIsValid] = useState(false);
   const validateField = (name: string, value: string) => {
     let errorMsg = '';
     // 이메일 유효성 검사
@@ -32,13 +33,23 @@ export const useAuthInput = () => {
     });
   };
 
-  const getAuthForm = (e: ChangeEvent<HTMLInputElement>) => {
+  const getAuthForm = (e: ChangeEvent<HTMLInputElement>): boolean => {
     validateField(e.target.name, e.target.value);
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
+
+    setForm(prevForm => {
+      return {
+        ...prevForm,
+        [e.target.name]: e.target.value,
+      };
     });
   };
 
-  return { form, error, getAuthForm };
+  useEffect(() => {
+    const isFormNowValid =
+      Object.values(form).every(fieldValue => fieldValue !== '') &&
+      Object.keys(error).length === 0;
+    setIsValid(isFormNowValid);
+  }, [error, form]);
+
+  return { form, error, getAuthForm, isValid };
 };

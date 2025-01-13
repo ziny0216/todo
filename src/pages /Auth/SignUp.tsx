@@ -3,7 +3,7 @@ import { supabase } from '../../utils/SupabaseClient.ts';
 import { useAuthInput } from '../../hooks/useAuthInput.tsx';
 
 export default function SignUp() {
-  const { form, error, getAuthForm } = useAuthInput();
+  const { form, error, getAuthForm, isValid } = useAuthInput();
   const signUpNewUser = async () => {
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -25,8 +25,10 @@ export default function SignUp() {
       console.error(e);
     }
   };
+
   return (
     <AuthForm
+      disabled={!isValid}
       type={'signup'}
       getAuthForm={e => getAuthForm(e)}
       handleButton={signUpNewUser}

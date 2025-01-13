@@ -10,11 +10,13 @@ export default function AuthForm({
   getAuthForm,
   handleButton,
   error,
+  disabled,
 }: {
   type: 'login' | 'signup';
   getAuthForm: (e: ChangeEvent<HTMLInputElement>) => void;
   handleButton: () => void;
   error?: FormErrors;
+  disabled: boolean;
 }) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     getAuthForm(e);
@@ -33,7 +35,7 @@ export default function AuthForm({
             placeholder={'이메일을 입력해주세요'}
             onChange={onChange}
           >
-            <p>{error?.email}</p>
+            <p className="guide_text">{error?.email}</p>
           </Input>
           {type === 'signup' && (
             <Input
@@ -55,9 +57,10 @@ export default function AuthForm({
             }
             onChange={onChange}
           >
-            <p>{error?.password}</p>
+            <p className="guide_text">{error?.password}</p>
           </Input>
           <Button
+            disabled={disabled}
             handleButton={handleButton}
             className={['btn_xxl', 'btn_purple']}
             text={type === 'login' ? '로그인' : '회원가입'}
