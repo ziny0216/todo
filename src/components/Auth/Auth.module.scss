@@ -1,0 +1,28 @@
+.auth_section{
+  display: grid;
+  place-items: center;
+
+
+  .inner{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+    padding-block: 0;
+  }
+  .title{
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semi;
+    line-height: $line-height-xl;
+  }
+  .form_group{
+
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+  }
+  .link{
+    color:$gray-700;
+    text-align: center;
+  }
+}

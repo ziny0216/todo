@@ -68,6 +68,21 @@
     }
   }
 
+  &_purple {
+    background-color: $purple-50;
+    color: $purple-700;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $purple-100;
+    }
+
+    &:disabled, .disabled {
+      background-color: $purple-25;
+      color: $purple-300;
+    }
+  }
+
   &_text{
     color: $gray-600;
     &:hover {

@@ -4,11 +4,15 @@ import Home from './pages /Home/Home.tsx';
 import DailyView from './pages /Home/views/DailyView.tsx';
 import WeeklyView from './pages /Home/views/WeeklyView.tsx';
 import MonthlyView from './pages /Home/views/MonthlyView.tsx';
+import Login from './pages /Auth/Login.tsx';
+import SignUp from './pages /Auth/SignUp.tsx';
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Home />}>
           <Route index element={<Navigate to="daily" />} />
           <Route path="/daily" element={<DailyView />} />
