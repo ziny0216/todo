@@ -90,6 +90,7 @@ export default function Home() {
         .from('todos')
         .insert([
           {
+            user_id: localStorage.getItem('user_id'),
             todo_date: form.todo_date,
             content: form.content,
             memo: form.memo,
@@ -97,7 +98,7 @@ export default function Home() {
         ])
         .select();
       if (error) {
-        console.error('Error fetching todos:', error.message);
+        console.error('Error fetching todos:', error);
       } else {
         setTodos([...todos, ...(data || [])]);
         setCurrentDate(new Date(form.todo_date));

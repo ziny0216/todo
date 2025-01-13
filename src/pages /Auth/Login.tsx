@@ -3,8 +3,10 @@ import { ChangeEvent, useState } from 'react';
 import { AuthFormType } from '../../types/common.ts';
 import { emailRegex, validateInput } from '../../utils/RegEx.ts';
 import { supabase } from '../../utils/SupabaseClient.ts';
+import { useNavigate } from 'react-router';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState<AuthFormType>({
     email: '',
     password: '',
@@ -40,7 +42,8 @@ export default function Login() {
       if (error) {
         alert(error.message);
       } else {
-        console.log(data);
+        navigate('/');
+        localStorage.setItem('user_id', data.user.id);
       }
     } catch (e) {
       console.error(e);
