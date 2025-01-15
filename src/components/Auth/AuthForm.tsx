@@ -45,7 +45,9 @@ export default function AuthForm({
               name={'nickname'}
               placeholder={'최대 8자 닉네임을 입력해주세요'}
               onChange={onChange}
-            />
+            >
+              <p className="guide_text">{error?.nickname}</p>
+            </Input>
           )}
           <Input
             type={'password'}

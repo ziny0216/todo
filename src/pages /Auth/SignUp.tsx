@@ -5,10 +5,18 @@ import { useNavigate } from 'react-router';
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { form, error, getAuthForm, isValid } = useAuthInput('signup');
+  const { form, error, getAuthForm, isValid, checkUserDuplication } =
+    useAuthInput('signup');
+
   const signUpNewUser = async () => {
     try {
-      const { data, error } = await supabase.auth.signUp({
+      //닉네임, 이메일 중복체크
+      const result = await checkUserDuplication();
+      if (!result) {
+        return;
+      }
+      //회원가입
+      const { error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
