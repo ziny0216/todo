@@ -8,7 +8,7 @@ import MonthlyView from './pages /Home/views/MonthlyView.tsx';
 import NotFound from './pages /NotFound/NotFound.tsx';
 import { ProtectedRouteProps } from './types/common.ts';
 
-// 라우트 객체
+// 라우트
 const routes = [
   { path: '/login', element: <Login /> },
   { path: '/sign-up', element: <SignUp /> },
@@ -25,7 +25,7 @@ const routes = [
   { path: '/*', element: <NotFound /> },
 ];
 
-// 라우트 객체 등록
+// 라우트 등록
 const router = createBrowserRouter(routes);
 
 //로그인 상태에 따른 컴포넌트 렌더링
