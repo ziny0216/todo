@@ -100,7 +100,7 @@ export default function Home() {
       if (error) {
         console.error('Error fetching todos:', error);
       } else {
-        setTodos([...todos, ...(data || [])]);
+        setTodos(prevTodo => [...prevTodo, ...(data || [])]);
         setCurrentDate(new Date(form.todo_date));
       }
     } catch (e) {
