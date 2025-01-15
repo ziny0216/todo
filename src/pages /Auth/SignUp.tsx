@@ -1,7 +1,7 @@
 import AuthForm from '../../components/Auth/AuthForm.tsx';
-import { supabase } from '../../utils/SupabaseClient.ts';
 import { useAuthInput } from '../../hooks/useAuthInput.tsx';
 import { useNavigate } from 'react-router';
+import { registerUser } from '../../services/authApi.ts';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -16,22 +16,9 @@ export default function SignUp() {
         return;
       }
       //회원가입
-      const { error } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: {
-          data: {
-            nickname: form.nickname,
-          },
-          emailRedirectTo: 'http://localhost:5173/login',
-        },
-      });
-      if (error) {
-        console.error('Error fetching todos:', error.message);
-      } else {
-        alert('이메일을 확인해주세요.');
-        navigate('/login');
-      }
+      await registerUser(form);
+      alert('이메일을 확인해주세요.');
+      navigate('/login');
     } catch (e) {
       console.error(e);
     }

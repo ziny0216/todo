@@ -13,7 +13,7 @@ export const fetchTodoMonthly = async (startDate: string, endDate: string) => {
     }
     return data;
   } catch (e) {
-    console.error('Error creating todo:', e);
+    console.error('Error todo:', e);
     throw e;
   }
 };

@@ -129,6 +129,7 @@ export default function Home() {
     navigate(`/${action}`);
     setIsShowToolbar(false);
   };
+
   return (
     <>
       <Header
