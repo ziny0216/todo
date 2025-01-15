@@ -16,6 +16,7 @@ const routes = [
     path: '/',
     element: <ProtectedRoute element={<Home />} />,
     children: [
+      { path: '', element: <Navigate to="/daily" replace /> },
       { path: '/daily', element: <DailyView /> },
       { path: '/weekly', element: <WeeklyView /> },
       { path: '/monthly', element: <MonthlyView /> },

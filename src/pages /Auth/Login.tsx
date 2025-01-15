@@ -15,7 +15,7 @@ export default function Login() {
       if (error) {
         alert(error.message);
       } else {
-        navigate('/');
+        navigate('/daily');
         localStorage.setItem('user_id', data.user.id);
       }
     } catch (e) {

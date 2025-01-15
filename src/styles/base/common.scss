@@ -1,4 +1,4 @@
-@use "@/styles/abstracts/variables" as *;
+@use "@/styles/global" as *;
 
 @font-face {
   font-family: 'NanumSquareNeoVariable';
@@ -52,3 +52,4 @@ section{
 .flex-1{
   flex:1;
 }
+
