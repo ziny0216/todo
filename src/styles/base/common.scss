@@ -1,6 +1,17 @@
 @use "@/styles/abstracts/variables" as *;
 
+@font-face {
+  font-family: 'NanumSquareNeoVariable';
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.eot);
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.eot?#iefix) format("embedded-opentype"),
+  url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.woff) format("woff"),
+  url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.ttf) format("truetype");
+}
+
+
+
 body{
+  font-family: 'NanumSquareNeoVariable', sans-serif;
   background: $gray-50;
 }
 
