@@ -4,12 +4,18 @@ import { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
 import { Outlet, useNavigate } from 'react-router';
-import { supabase } from '../../utils/SupabaseClient.ts';
 import { formatDate } from '../../utils/common.ts';
 import { Tables } from '../../types/database.types.ts';
 import { TodoForm, TodoSummaryType } from '../../types/common.ts';
 import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
+import {
+  createTodo,
+  deleteTodo,
+  fetchTodoMonthly,
+  readTodo,
+  updateTodo,
+} from '../../services/todoApi.ts';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -47,34 +53,13 @@ export default function Home() {
       endDate: string = '',
     ) => {
       try {
-        let data, error;
         // 월간일 경우 ctn 불러오기
         if (path === 'monthly') {
-          ({ data, error } = await supabase.rpc('get_todo_summary', {
-            start_date: startDate,
-            end_date: endDate,
-          }));
-
-          if (error) {
-            console.error('Error fetching todos:', error.message);
-          } else {
-            setTodoCnt(data || []);
-          }
+          const data = await fetchTodoMonthly(startDate, endDate);
+          setTodoCnt(data || []);
         } else {
-          // 그 외 리스트 불러오기
-          let query = supabase.from('todos').select('*');
-          if (startDate && endDate) {
-            query = query.gte('todo_date', startDate).lte('todo_date', endDate);
-          } else if (currentDate) {
-            query = query.eq('todo_date', currentDate);
-          }
-
-          ({ data, error } = await query);
-          if (error) {
-            console.error('Error fetching todos:', error.message);
-          } else {
-            setTodos(data || []);
-          }
+          const data = await readTodo(currentDate, startDate, endDate);
+          setTodos(data || []);
         }
       } catch (e) {
         console.error(e);
@@ -86,23 +71,17 @@ export default function Home() {
   //todo 등록
   const onSubmit = async (form: TodoForm) => {
     try {
-      const { data, error } = await supabase
-        .from('todos')
-        .insert([
-          {
-            user_id: localStorage.getItem('user_id'),
-            todo_date: form.todo_date,
-            content: form.content,
-            memo: form.memo,
-          },
-        ])
-        .select();
-      if (error) {
-        console.error('Error fetching todos:', error);
-      } else {
-        setTodos(prevTodo => [...prevTodo, ...(data || [])]);
-        setCurrentDate(new Date(form.todo_date));
-      }
+      const userId = localStorage.getItem('user_id');
+      if (!userId) return;
+      const data = await createTodo({
+        user_id: userId,
+        todo_date: form.todo_date,
+        content: form.content,
+        memo: form.memo,
+      });
+
+      setTodos(prevTodo => [...prevTodo, ...data]);
+      setCurrentDate(new Date(form.todo_date));
     } catch (e) {
       console.error(e);
     }
@@ -114,25 +93,16 @@ export default function Home() {
     form: { content: string; memo: string; is_done: 'Y' | 'N' },
   ) => {
     try {
-      const { data, error } = await supabase
-        .from('todos')
-        .update({
-          content: form.content,
-          memo: form.memo,
-          is_done: form.is_done,
-        })
-        .eq('id', id)
-        .select();
-      console.log(data, 'data');
-      if (error) {
-        console.error('Error fetching todos:', error.message);
-      } else {
-        setTodos(prevTodos =>
-          prevTodos.map(item =>
-            item.id === id ? { ...item, ...data[0] } : item,
-          ),
-        );
-      }
+      const data = await updateTodo(id, {
+        content: form.content,
+        memo: form.memo,
+        is_done: form.is_done,
+      });
+      setTodos(prevTodos =>
+        prevTodos.map(item =>
+          item.id === id ? { ...item, ...data[0] } : item,
+        ),
+      );
     } catch (e) {
       console.error(e);
     }
@@ -141,15 +111,9 @@ export default function Home() {
   // todo 삭제
   const handleTodoDelete = async (id: number) => {
     try {
-      const { error } = await supabase.from('todos').delete().eq('id', id);
-      if (error) {
-        console.error('Error fetching todos:', error.message);
-      } else {
-        const newTodos: Tables<'todos'>[] = todos.filter(
-          todo => todo.id !== id,
-        );
-        setTodos(newTodos);
-      }
+      await deleteTodo(id);
+      const newTodos: Tables<'todos'>[] = todos.filter(todo => todo.id !== id);
+      setTodos(newTodos);
     } catch (e) {
       console.error(e);
     }
