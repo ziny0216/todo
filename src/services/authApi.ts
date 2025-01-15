@@ -26,7 +26,7 @@ export const registerUser = async (form: AuthFormType) => {
         data: {
           nickname: form.nickname,
         },
-        emailRedirectTo: 'http://localhost:5173/login',
+        emailRedirectTo: `${import.meta.env.VITE_REDIRECT_URL}/login`,
       },
     });
     if (error) {
