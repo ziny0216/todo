@@ -15,7 +15,7 @@ import {
 import { Database } from './database.types.ts';
 
 export interface TodoForm {
-  user_id: string;
+  user_id?: string;
   todo_date: string;
   content: string;
   memo: string;
