@@ -5,7 +5,7 @@ import { useAuthInput } from '../../hooks/useAuthInput.tsx';
 
 export default function Login() {
   const navigate = useNavigate();
-  const { form, error, getAuthForm, isValid } = useAuthInput();
+  const { form, error, getAuthForm, isValid } = useAuthInput('login');
 
   const login = async () => {
     try {

@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { AuthFormType, FormErrors } from '../types/common.ts';
 import { emailRegex, validateInput } from '../utils/RegEx.ts';
 
-export const useAuthInput = () => {
+export const useAuthInput = (type: 'login' | 'signup') => {
   const [form, setForm] = useState<AuthFormType>({
     email: '',
     nickname: '',
@@ -46,8 +46,10 @@ export const useAuthInput = () => {
 
   useEffect(() => {
     const isFormNowValid =
-      Object.values(form).every(fieldValue => fieldValue !== '') &&
-      Object.keys(error).length === 0;
+      Object.entries(form).every(([key, value]) => {
+        if (key === 'nickname' && type === 'login') return true;
+        return value !== '';
+      }) && Object.keys(error).length === 0;
     setIsValid(isFormNowValid);
   }, [error, form]);
 

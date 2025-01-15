@@ -1,9 +1,11 @@
 import AuthForm from '../../components/Auth/AuthForm.tsx';
 import { supabase } from '../../utils/SupabaseClient.ts';
 import { useAuthInput } from '../../hooks/useAuthInput.tsx';
+import { useNavigate } from 'react-router';
 
 export default function SignUp() {
-  const { form, error, getAuthForm, isValid } = useAuthInput();
+  const navigate = useNavigate();
+  const { form, error, getAuthForm, isValid } = useAuthInput('signup');
   const signUpNewUser = async () => {
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -19,7 +21,8 @@ export default function SignUp() {
       if (error) {
         console.error('Error fetching todos:', error.message);
       } else {
-        console.log(data);
+        alert('이메일을 확인해주세요.');
+        navigate('/login');
       }
     } catch (e) {
       console.error(e);
