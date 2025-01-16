@@ -111,7 +111,7 @@
   @include imgIcon(64px, '@/assets/icon/icon-black-plus.png');
   background-size: 32px;
   border-radius: 50em;
-  position: absolute;
+  position: fixed;
   bottom: 32px;
   right: 32px;
 }
