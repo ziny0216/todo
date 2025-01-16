@@ -29,6 +29,7 @@ export default function Input({
         readOnly={readonly}
         onChange={onChange}
         onClick={onClick}
+        autoComplete="off"
       ></input>
       {children}
     </div>
