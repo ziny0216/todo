@@ -63,7 +63,7 @@ export default function Calendar({
     >
       <ul className={`${styles.calendar_header} ${styles.calendar_content}`}>
         {days.map((day, idx) => {
-          const dateClass = `${styles.days} ${idx === 0 ? styles.holiday : ''} ${idx === 6 ? styles.saturday : ''} }`;
+          const dateClass = `${styles.days} ${idx === 0 ? styles.holiday : ''} ${idx === 6 ? styles.saturday : ''} `;
           return (
             <li key={day} className={dateClass}>
               {day}

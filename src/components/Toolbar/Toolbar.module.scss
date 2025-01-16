@@ -1,7 +1,7 @@
 @use "@/styles/global" as *;
 .tool_bar {
   background-color: #fff;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 32px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
