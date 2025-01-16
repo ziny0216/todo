@@ -69,3 +69,11 @@ styles/
   |- main.scss            // 메인 SCSS 파일 ,rest.scss와 common.scss 포함
   |- global.scss          // 부분 파일을 모아놓은 파일
 ```
+
+### 구현화면
+- 등록&일간 | 주간 | 월간 순
+<p align="center">
+<img src="https://github.com/user-attachments/assets/be7cd50a-38cc-4087-abf8-93206d0c42d6" alt="add" width="30%">
+<img src="https://github.com/user-attachments/assets/36e88332-e833-47fe-960d-4e6003275eea" alt="weeks" width="30%">
+<img src="https://github.com/user-attachments/assets/a258e145-2790-4e8b-843f-587daca0a8fc" alt="monthly" width="30%">
+<p>
