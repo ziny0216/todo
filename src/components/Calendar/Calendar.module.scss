@@ -6,6 +6,7 @@
 
     .date {
       min-height: 50px;
+      justify-content: center;
 
     }
   }
@@ -42,7 +43,7 @@
     border-style: solid;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+
     align-items: center;
     gap: 8px;
   }
