@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+# TODO PROJECT
+<hr>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+https://todo-list-one-flax.vercel.app
 
-Currently, two official plugins are available:
+React와 Ts를 사용하여 개발한 TODO입니다. <br>
+이메일 로그인을 통해 회원별 TODO CURD를 할 수 있도록 구성되어있습니다.<br/>일간,주간으로 TODO 리스팅되고 월간을 통해 달성률을 확인할 수 있는 TODO입니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+### 기술 스택
+- **프론트엔드**
+  - Vite
+  - React
+  - TypeScript
+  - SCSS (Sass)
+- **백엔드**:
+    - Supabase
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+
+### 필요 조건
+- Node.js (버전 18 이상 권장)
+- npm
+### 설치 단계
+
+1. **프로젝트 클론하기**
+2. 의존성 설치하기
+
+```sh
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+3.eslint, prettier 설치 및 적용
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```sh
+npm install eslint --save-dev
+npm install --save-dev prettier
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### 배포
+
+- **Vercel**을 이용하여 자동 배포
+  -  Github 레퍼지토리와 연동하여 **main** 브랜치 푸시시 자동으로 빌드 및 배포
+
+### 파일 구조 
+```
+src/
+├── assets/           # 이이콘, 더미 이미지 
+├── components/       # 재사용 가능한 React 컴포넌트
+├── hooks/            # 커스텀 훅
+├── pages/            # 페이지 컴포넌트
+├── services/         # API 호출 로직
+├── styles/           # SCSS 스타일 파일
+├── types/            # 공통 타입 및 db 타입 파일
+├── utils/            # 유틸리티 함수
+└── App.tsx           # 애플리케이션 진입점
+```
+### css 파일구조
+- 언더스코어(_)는 이 파일이 부분 파일임을 나타내먀 부분 파일은 다른 SCSS 파일로 import 해서 사용
+```
+styles/
+  |- abstracts/
+      |- _mixins.scss     // 반복 스타일 재사용 가능하도록 정의
+      |- _variables.scss  // 전역 사용 변수
+  |- base/
+      |- common.scss      // 공통 scss
+      |- _typography.scss // 폰트 변수
+  |- main.scss            // 메인 SCSS 파일 ,rest.scss와 common.scss 포함
+  |- global.scss          // 부분 파일을 모아놓은 파일
 ```
