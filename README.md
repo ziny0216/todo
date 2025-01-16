@@ -77,3 +77,6 @@ styles/
 <img src="https://github.com/user-attachments/assets/36e88332-e833-47fe-960d-4e6003275eea" alt="weeks" width="30%">
 <img src="https://github.com/user-attachments/assets/a258e145-2790-4e8b-843f-587daca0a8fc" alt="monthly" width="30%">
 <p>
+
+### 프로젝트 후기 
+https://velog.io/@ziny0216/ReactTS-TODO-%EB%A7%8C%EB%93%A4%EA%B8%B0-1
