@@ -1,16 +1,16 @@
 import styles from './Toolbar.module.scss';
 import Button from '../Button/Button.tsx';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import useClickOutside from '../../hooks/useClickOutside.tsx';
 import { CSSTransition } from 'react-transition-group';
 
-export default function Toolbar({
+function Toolbar({
   isShowToolbar,
   handleToolbar,
   closeToolbar,
   handleButtonClick,
 }: {
-  isShowToolbar: boolean;
+  isShowToolbar?: boolean;
   handleToolbar: () => void;
   closeToolbar: () => void;
   handleButtonClick: (action: string) => void;
@@ -62,3 +62,4 @@ export default function Toolbar({
     </div>
   );
 }
+export default memo(Toolbar);

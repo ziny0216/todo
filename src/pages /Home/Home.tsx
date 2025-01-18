@@ -1,12 +1,10 @@
 import styles from './Home.module.scss';
 import { useCallback, useEffect, useState } from 'react';
-import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
 import { Outlet, useNavigate } from 'react-router';
 import { formatDate } from '../../utils/common.ts';
 import { Tables } from '../../types/database.types.ts';
 import { TodoForm, TodoSummaryType } from '../../types/common.ts';
-import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 import Toolbar from '../../components/Toolbar/Toolbar.tsx';
 import {
   createTodo,
@@ -15,6 +13,8 @@ import {
   readTodo,
   updateTodo,
 } from '../../services/todoApi.ts';
+import Header from '../../components/Header/Header.tsx';
+import TodoFormModal from '../../components/Modal/TodoFormModal.tsx';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -119,15 +119,26 @@ export default function Home() {
   };
 
   //todo 툴바
-  const handleToolbarAction = (action: string) => {
-    if (action === 'add') {
-      setIsOpenModal(true);
+  const handleToolbarAction = useCallback(
+    (action: string) => {
+      if (action === 'add') {
+        setIsOpenModal(true);
+        setIsShowToolbar(false);
+        return;
+      }
+      navigate(`/${action}`);
       setIsShowToolbar(false);
-      return;
-    }
-    navigate(`/${action}`);
+    },
+    [navigate],
+  );
+
+  const handleToolbar = useCallback(() => {
+    setIsShowToolbar(!isShowToolbar);
+  }, [isShowToolbar]);
+
+  const closeToolbar = useCallback(() => {
     setIsShowToolbar(false);
-  };
+  }, []);
 
   return (
     <>
@@ -154,10 +165,10 @@ export default function Home() {
         </div>
 
         <Toolbar
-          handleToolbar={() => setIsShowToolbar(!isShowToolbar)}
+          handleToolbar={handleToolbar}
           handleButtonClick={handleToolbarAction}
           isShowToolbar={isShowToolbar}
-          closeToolbar={() => setIsShowToolbar(false)}
+          closeToolbar={closeToolbar}
         />
 
         <TodoFormModal
