@@ -28,7 +28,6 @@ function Toolbar({
         className={['btn_gray', 'floating_btn']}
         handleButton={handleToolbar}
       />
-
       <CSSTransition
         nodeRef={toolbarRef}
         in={isShowToolbar}

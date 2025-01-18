@@ -5,10 +5,12 @@ import * as path from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-
+  optimizeDeps: {
+    include: ['react-transition-group'],
+  },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // 경로 별칭 설정
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });
