@@ -26,16 +26,19 @@ export default function Modal({
     }
   }, [isOpen]);
 
-  return createPortal(
-    <dialog
-      ref={dialogRef}
-      className={`${styles.modal_wrap} ${className && styles[className]} ${disabledBackDrop ? styles.no_backdrop : ''}`}
-    >
-      <div className={styles.modal_header}>
-        <Button className={['close_btn']} handleButton={onClose} />
-      </div>
-      <div className={styles.modal_content}>{children}</div>
-    </dialog>,
-    document.getElementById('modal') as HTMLElement,
+  return (
+    isOpen &&
+    createPortal(
+      <dialog
+        ref={dialogRef}
+        className={`${styles.modal_wrap} ${className && styles[className]} ${disabledBackDrop ? styles.no_backdrop : ''}`}
+      >
+        <div className={styles.modal_header}>
+          <Button className={['close_btn']} handleButton={onClose} />
+        </div>
+        <div className={styles.modal_content}>{children}</div>
+      </dialog>,
+      document.getElementById('modal') as HTMLElement,
+    )
   );
 }

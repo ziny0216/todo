@@ -48,7 +48,9 @@ export default function Calendar({
             ...item,
             total_todos: matched.total_todos,
             done_todos: matched.done_todos,
-            percentage: (matched.done_todos / matched.total_todos) * 100,
+            percentage: Math.trunc(
+              (matched.done_todos / matched.total_todos) * 100,
+            ),
           };
         }
         return item;
