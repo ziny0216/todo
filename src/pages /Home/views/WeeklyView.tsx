@@ -31,10 +31,23 @@ export default function WeeklyView() {
         acc[dateKey] = [];
       }
       acc[dateKey].push(todo);
-      return acc;
+
+      const sortDate = Object.keys(acc).sort(
+        (a: string, b: string): number =>
+          new Date(b).getTime() - new Date(a).getTime(),
+      );
+
+      return sortDate.reduce(
+        (groupAcc, key) => {
+          groupAcc[key] = acc[key];
+          return groupAcc;
+        },
+        {} as Record<string, TodoItemType[]>,
+      );
     },
     {},
   );
+
   return (
     <div>
       {Object.entries(dateGroupTodo).map(
@@ -52,7 +65,10 @@ export default function WeeklyView() {
               className={styles.todo_list}
               ref={contentRef}
               style={{
-                maxHeight: activeTodo === date ? `${contentHeight}px` : '0',
+                maxHeight:
+                  activeTodo === date
+                    ? `${contentHeight * todos.length}px`
+                    : '0',
               }}
             >
               {todos
