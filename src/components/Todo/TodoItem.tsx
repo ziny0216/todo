@@ -3,7 +3,7 @@ import Button from '../Button/Button.tsx';
 import { TodoItemProps } from '../../types/common.ts';
 import CheckBox from '../Input/CheckBox.tsx';
 import useClickOutside from '../../hooks/useClickOutside.tsx';
-import { ChangeEvent, memo, useRef, useState } from 'react';
+import { ChangeEvent, memo, useEffect, useRef, useState } from 'react';
 
 function TodoItem({
   id,
@@ -23,6 +23,9 @@ function TodoItem({
   useClickOutside(contentRef, () => contentRef.current?.blur());
   useClickOutside(memoRef, () => contentRef.current?.blur());
 
+  useEffect(() => {
+    console.log('rendering');
+  }, [handleTodoDelete]);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEditTodo({
       ...editTodo,

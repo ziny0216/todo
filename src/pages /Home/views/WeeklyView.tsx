@@ -2,7 +2,7 @@ import styles from '../Home.module.scss';
 import { useOutletContext } from 'react-router';
 import { TodoItemType } from '../../../types/common.ts';
 import TodoItem from '../../../components/Todo/TodoItem.tsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export default function WeeklyView() {
   const { todos, handleTodoDelete, handleTodoEdit } = useOutletContext<{
@@ -24,29 +24,37 @@ export default function WeeklyView() {
     }
   }, [activeTodo]);
 
-  const dateGroupTodo = todos.reduce(
-    (acc: Record<string, TodoItemType[]>, todo) => {
-      const dateKey = new Date(todo.todo_date).toLocaleDateString();
-      if (!acc[dateKey]) {
-        acc[dateKey] = [];
-      }
-      acc[dateKey].push(todo);
+  const dateGroupTodo = useMemo(() => {
+    // 날짜별 그룹
+    const dateGroup = todos.reduce(
+      (acc: Record<string, TodoItemType[]>, current) => {
+        const dateKey = new Date(current.todo_date).toLocaleDateString();
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
+        }
+        acc[dateKey].push(current);
+        return acc;
+      },
+      {},
+    );
 
-      const sortDate = Object.keys(acc).sort(
-        (a: string, b: string): number =>
-          new Date(b).getTime() - new Date(a).getTime(),
-      );
+    // 그룹 날짜별 정렬
+    const sortGroupDate = Object.keys(dateGroup).sort(
+      (a, b) => new Date(b).getTime() - new Date(a).getTime(),
+    );
 
-      return sortDate.reduce(
-        (groupAcc, key) => {
-          groupAcc[key] = acc[key];
-          return groupAcc;
-        },
-        {} as Record<string, TodoItemType[]>,
-      );
-    },
-    {},
-  );
+    // 완료된 TODO 후순위정렬
+    return sortGroupDate.reduce(
+      (acc: Record<string, TodoItemType[]>, current) => {
+        acc[current] = dateGroup[current].sort((a, b) => {
+          if (a.is_done === b.is_done) return 0;
+          return a.is_done === 'Y' ? 1 : -1;
+        });
+        return acc;
+      },
+      {},
+    );
+  }, [todos]);
 
   return (
     <div>
@@ -71,19 +79,14 @@ export default function WeeklyView() {
                     : '0',
               }}
             >
-              {todos
-                .sort((a, b) => {
-                  if (a.is_done === b.is_done) return 0;
-                  return a.is_done === 'Y' ? 1 : -1;
-                })
-                .map((todo: TodoItemType) => (
-                  <TodoItem
-                    key={todo.id}
-                    {...todo}
-                    handleTodoDelete={() => handleTodoDelete(todo.id)}
-                    handleTodoEdit={handleTodoEdit}
-                  />
-                ))}
+              {todos.map((todo: TodoItemType) => (
+                <TodoItem
+                  key={todo.id}
+                  {...todo}
+                  handleTodoDelete={handleTodoDelete}
+                  handleTodoEdit={handleTodoEdit}
+                />
+              ))}
             </div>
           </div>
         ),
