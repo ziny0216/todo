@@ -1,5 +1,4 @@
 import styles from './Home.module.scss';
-import Button from '../../components/Button/Button.tsx';
 import { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header/Header.tsx';
 import useHeaderDate from '../../hooks/useHeaderDate.tsx';
@@ -154,11 +153,8 @@ export default function Home() {
           />
         </div>
 
-        <Button
-          className={['btn_gray', 'floating_btn']}
-          handleButton={() => setIsShowToolbar(!isShowToolbar)}
-        />
         <Toolbar
+          handleToolbar={() => setIsShowToolbar(!isShowToolbar)}
           handleButtonClick={handleToolbarAction}
           isShowToolbar={isShowToolbar}
           closeToolbar={() => setIsShowToolbar(false)}

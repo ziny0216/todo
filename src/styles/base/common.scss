@@ -53,3 +53,30 @@ section{
   flex:1;
 }
 
+.show-enter {
+  transform: translateY(0);
+  opacity: 0;
+}
+
+.show-enter-active {
+  transform: translateY(-120px);
+  opacity: 1;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.show-enter-done {
+  transform: translateY(-120px);
+  opacity: 1;
+}
+
+
+.show-exit {
+  transform: translateY(-120px);
+  opacity: 1;
+}
+
+.show-exit-active {
+  transform: translateY(0);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
