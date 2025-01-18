@@ -26,7 +26,7 @@ export interface TodoItemType extends TodoForm {
 }
 
 export interface TodoItemProps extends TodoItemType {
-  handleTodoDelete: () => void;
+  handleTodoDelete: (id: number) => void;
   handleTodoEdit: (id: number, form: { content: string; memo: string }) => void;
 }
 

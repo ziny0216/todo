@@ -68,7 +68,7 @@ export default function Home() {
   );
 
   //todo 등록
-  const onSubmit = async (form: TodoForm) => {
+  const onSubmit = useCallback(async (form: TodoForm) => {
     try {
       const userId = localStorage.getItem('user_id');
       if (!userId) return;
@@ -84,39 +84,41 @@ export default function Home() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, []);
 
   //todo 수정
-  const handleTodoEdit = async (
-    id: number,
-    form: { content: string; memo: string; is_done: 'Y' | 'N' },
-  ) => {
-    try {
-      const data = await updateTodo(id, {
-        content: form.content,
-        memo: form.memo,
-        is_done: form.is_done,
-      });
-      setTodos(prevTodos =>
-        prevTodos.map(item =>
-          item.id === id ? { ...item, ...data[0] } : item,
-        ),
-      );
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const handleTodoEdit = useCallback(
+    async (
+      id: number,
+      form: { content: string; memo: string; is_done: 'Y' | 'N' },
+    ) => {
+      try {
+        const data = await updateTodo(id, {
+          content: form.content,
+          memo: form.memo,
+          is_done: form.is_done,
+        });
+        setTodos(prevTodos =>
+          prevTodos.map(item =>
+            item.id === id ? { ...item, ...data[0] } : item,
+          ),
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [],
+  );
 
   // todo 삭제
-  const handleTodoDelete = async (id: number) => {
+  const handleTodoDelete = useCallback(async (id: number) => {
     try {
       await deleteTodo(id);
-      const newTodos: Tables<'todos'>[] = todos.filter(todo => todo.id !== id);
-      setTodos(newTodos);
+      setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
     } catch (e) {
       console.error(e);
     }
-  };
+  }, []);
 
   //todo 툴바
   const handleToolbarAction = useCallback(

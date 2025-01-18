@@ -3,9 +3,9 @@ import Button from '../Button/Button.tsx';
 import { TodoItemProps } from '../../types/common.ts';
 import CheckBox from '../Input/CheckBox.tsx';
 import useClickOutside from '../../hooks/useClickOutside.tsx';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, memo, useRef, useState } from 'react';
 
-export default function TodoItem({
+function TodoItem({
   id,
   content,
   memo,
@@ -68,7 +68,7 @@ export default function TodoItem({
         />
         <div className="btn_group ml_auto">
           <Button
-            handleButton={handleTodoDelete}
+            handleButton={() => handleTodoDelete(id)}
             className={['delete_btn', 'btn_red']}
           />
         </div>
@@ -88,3 +88,4 @@ export default function TodoItem({
     </div>
   );
 }
+export default memo(TodoItem);
