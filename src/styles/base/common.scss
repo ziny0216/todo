@@ -28,7 +28,7 @@ section{
 }
 
 .inner{
-  padding: 90px 16px 32px;
+  padding: 90px 16px 100px;
 }
 
 .btn_group{
@@ -59,24 +59,24 @@ section{
 }
 
 .show-enter-active {
-  transform: translateY(-120px);
+  transform: translateY(-96px);
   opacity: 1;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .show-enter-done {
-  transform: translateY(-120px);
+  transform: translateY(-96px);
   opacity: 1;
 }
 
 
 .show-exit {
-  transform: translateY(-120px);
+  transform: translateY(-96px);
   opacity: 1;
 }
 
 .show-exit-active {
-  transform: translateY(0);
+  transform: translateY(-96px);
   opacity: 0;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }

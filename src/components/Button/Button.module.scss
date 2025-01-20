@@ -111,9 +111,10 @@
   @include imgIcon(64px, '@/assets/icon/icon-black-plus.png');
   background-size: 32px;
   border-radius: 50em;
-  position: fixed;
+  position: absolute;
   bottom: 32px;
   right: 32px;
+
 }
 
 .delete_btn {
@@ -121,6 +122,7 @@
   background-size: 16px;
   border-radius: 50em;
   background-color: $red-50;
+
 }
 
 .close_btn{

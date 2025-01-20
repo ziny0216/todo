@@ -1,4 +1,5 @@
 @use "@/styles/global" as *;
+
 .default_header {
   position: fixed;
   padding: 0 16px;
@@ -9,6 +10,10 @@
   z-index: 1;
   left: 50%;
   transform: translateX(-50%);
+
+  &.nofiexed_header {
+    position: relative;
+  }
 
   .header_inner {
     display: flex;

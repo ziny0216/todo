@@ -1,6 +1,6 @@
 import styles from './Toolbar.module.scss';
 import Button from '../Button/Button.tsx';
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import useClickOutside from '../../hooks/useClickOutside.tsx';
 import { CSSTransition } from 'react-transition-group';
 
@@ -22,6 +22,26 @@ function Toolbar({
     closeToolbar();
   });
 
+  const toolbarPosition = () => {
+    const parentsHeight = window.innerHeight + window.scrollY;
+
+    if (contentRef.current) {
+      const floatingBtn = contentRef.current
+        .firstElementChild as HTMLButtonElement;
+      const bottomTop = floatingBtn.offsetHeight;
+      floatingBtn.style.top = `${parentsHeight - bottomTop - 16}px`;
+    }
+  };
+
+  useEffect(() => {
+    toolbarPosition();
+    window.addEventListener('resize', toolbarPosition);
+    window.addEventListener('scroll', toolbarPosition);
+    return () => {
+      window.removeEventListener('resize', toolbarPosition);
+      window.removeEventListener('scroll', toolbarPosition);
+    };
+  }, []);
   return (
     <div ref={contentRef}>
       <Button

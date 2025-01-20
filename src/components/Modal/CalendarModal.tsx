@@ -17,11 +17,11 @@ export default function CalendarModal({
   return (
     <BottomModal isOpen={isOpen} onClose={onClose}>
       <Header
+        className={'nofiexed_header'}
         handlePrev={handlePrev}
         handleNext={handleNext}
         title={dateTitle}
       />
-
       <Calendar
         isPercentage={false}
         currentDate={currentDate}
